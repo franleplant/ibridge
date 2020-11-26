@@ -5,7 +5,7 @@ import { MESSAGE_TYPE } from "./constants";
  */
 export default function isValidEvent(
   event: MessageEvent,
-  allowedOrigin: string
+  allowedOrigin: string | undefined
 ): boolean {
   const validators = [
     () => event.origin === allowedOrigin,
