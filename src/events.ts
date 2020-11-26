@@ -56,4 +56,3 @@ export function createParentEmit(
     data,
   };
 }
-

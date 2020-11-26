@@ -1,4 +1,4 @@
-import {MESSAGE_TYPE} from './constants'
+import { MESSAGE_TYPE } from "./constants";
 
 /**
  * Ensures that a message is safe to interpret

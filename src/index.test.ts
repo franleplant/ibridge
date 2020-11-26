@@ -8,18 +8,17 @@ jest.mock("./isValidEvent");
 (isValidEvent as jest.Mock).mockImplementation(() => true);
 
 test("integration", async () => {
-  const context = { ctxValue: "im a context"};
+  const context = { ctxValue: "im a context" };
   const model = {
     users: {
-      getUser(this: {ctxValue: string}, userId: number): any {
+      getUser(this: { ctxValue: string }, userId: number): any {
         return {
           fake: true,
           userId,
-          context: this.ctxValue
-        }
-      }
-
-    }
+          context: this.ctxValue,
+        };
+      },
+    },
   };
 
   const parent = new iBridge.Parent({ url: "about:blank" });
@@ -35,11 +34,11 @@ test("integration", async () => {
 
   await Promise.all([child.handshake(), parent.handshake()]);
 
-  const userId = 123
-  const value = await parent.get("users.getUser", userId)
+  const userId = 123;
+  const value = await parent.get("users.getUser", userId);
   expect(value).toEqual({
     userId,
     fake: true,
     context: context.ctxValue,
-  })
+  });
 });
