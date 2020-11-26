@@ -10,7 +10,7 @@ Parent setup.
 
 import ibridge from 'ibridge'
 
-const iparent = new ibridge.ParentAPI({...})
+const iparent = new ibridge.Parent({...})
 // a handshake will be performed here
 await iparent.handshake()
 
@@ -55,7 +55,7 @@ const model = {
 const context = {}
 
 // instantiate the ichild
-const ichild = new ChildApi(model, context)
+const ichild = new ibridge.Child(model, context)
 // await for the handhsake with the parent
 await ichild.handshake()
 
