@@ -11,7 +11,7 @@ import {
   CHILD_EMIT,
 } from "./constants";
 
-const debug = debugFactory("PARENT");
+const debug = debugFactory("ibridge:parent");
 
 interface IConstructorArgs {
   container?: HTMLElement;
@@ -44,7 +44,7 @@ export default class ParentAPI extends Emittery {
     this.frame = document.createElement("iframe");
     this.frame.name = name;
     this.frame.classList.add(...classList);
-    debug("Parent: Loading frame %s", url);
+    debug("Loading frame %s", url);
     this.frame.src = url;
     this.container.appendChild(this.frame);
 
@@ -53,12 +53,13 @@ export default class ParentAPI extends Emittery {
       (this.frame.contentDocument as any)?.parentWindow;
     this.childOrigin = resolveOrigin(url);
 
-    debug("Parent: Registering API");
-    debug("Parent: Awaiting messages...");
+    debug("Registering API");
+    debug("Awaiting messages...");
     this.parent.addEventListener("message", this.dispatcher.bind(this), false);
   }
 
   private dispatcher(event: MessageEvent): void {
+    debug(`dispatcher %O`, event)
     if (!isValidEvent(event, this.childOrigin)) {
       debug(
         "parent origin mismatch. Expected %s got %s",
@@ -70,12 +71,13 @@ export default class ParentAPI extends Emittery {
 
     if (event.data.kind === CHILD_EMIT) {
       const { eventName, data } = event.data as IChildEmit;
-      debug(`Parent: Received event emission: ${eventName}`);
+      debug(`dispatcher emit %s %O`, eventName, data);
       this.emit(eventName, data);
     }
   }
 
   async handshake(): Promise<ParentAPI> {
+    debug("starting handshake");
     let attempt = 0;
 
     const tryHandshake = async () => {
@@ -91,7 +93,7 @@ export default class ParentAPI extends Emittery {
           continue;
         }
 
-        debug("Parent: Received handshake reply from Child");
+        debug("Received handshake reply from Child");
         return;
       }
 
@@ -114,7 +116,9 @@ export default class ParentAPI extends Emittery {
     const id = uuid();
 
     this.emitToChild(GET_REQUEST, { id, property, args } as IGetRequest);
-    const { value, error } = (await this.once(getResponse(id))) as IGetResponse;
+    const eventName =  getResponse(id)
+    debug("get await for response event %s", eventName)
+    const { value, error } = (await this.once(eventName)) as IGetResponse;
     if (error) {
       throw error;
     }
@@ -123,7 +127,7 @@ export default class ParentAPI extends Emittery {
   }
 
   emitToChild(eventName: string, data: unknown): void {
-    debug(`Emitting Event "${eventName}"`, data);
+    debug(`emitToChild "${eventName}"`, data);
 
     this.parent.postMessage(
       createParentEmit(eventName, data),
@@ -132,7 +136,7 @@ export default class ParentAPI extends Emittery {
   }
 
   destroy(): void {
-    debug("Parent: Destroying Postmate instance");
+    debug("Destroying Postmate instance");
     window.removeEventListener("message", this.dispatcher, false);
     this.frame.parentNode?.removeChild(this.frame);
   }

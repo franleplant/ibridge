@@ -11,27 +11,21 @@ import {
 import { getResponse, IGetRequest, IGetResponse, IParentEmit } from "./events";
 import { createChildEmit, isValidEvent } from "./events";
 
-const debug = debugFactory("CHILD");
+const debug = debugFactory("ibridge:child");
 
 export interface IConstructorArgs<TModel, TContext> {
-  child: Window;
-  parent: Window;
-  parentOrigin: string;
   model: TModel;
   context: TContext;
 }
 
-export default class ChildAPI<TModel = any, TContext = any> extends Emittery {
+export default class ChildAPI<TModel, TContext = any> extends Emittery {
   private model: TModel;
   public readonly parent: Window;
   public readonly child: Window;
   public readonly parentOrigin: string;
   public context?: TContext;
 
-  constructor({
-    model,
-    context,
-  }: IConstructorArgs<TModel, TContext | undefined>) {
+  constructor(model: TModel, context?: TContext) {
     super();
     this.child = window;
     this.parent = this.child.parent;
