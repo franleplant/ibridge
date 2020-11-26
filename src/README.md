@@ -5,7 +5,8 @@ TODO
 import {ParentAPI } from './index'
 
 // a handshake will be performed here
-const parent = await ParentAPI.init({...})
+const parent = new ParentAPI({...})
+await parent.handshake()
 
 try {
   const result = await parent.get('deep.getSomethingInTheChildren', "arguments", "are", true)
@@ -37,7 +38,8 @@ const model = {
 
 }
 
-const child = await ChildAPI.init(model, context)
+const child = new ChildApi(model, context)
+await child.handshake()
 
 // send message to parent
 child.emitToParent("cheers", {with:"beer"})
