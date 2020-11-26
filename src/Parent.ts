@@ -22,6 +22,7 @@ interface IConstructorArgs {
 }
 
 export default class ParentAPI extends Emittery {
+  public readonly url: string;
   public readonly parent: Window;
   public readonly child: Window;
   public readonly frame: HTMLIFrameElement;
@@ -40,15 +41,14 @@ export default class ParentAPI extends Emittery {
     classList = [],
   }: IConstructorArgs) {
     super();
+    this.url = url;
     this.container = container;
     this.parent = window;
     this.frame = document.createElement("iframe");
     this.frame.name = name;
     this.frame.classList.add(...classList);
     debug("Loading frame %s", url);
-    this.frame.src = url;
     this.container.appendChild(this.frame);
-    this.frame.contentWindow?.document.readyState;
 
     this.child =
       this.frame.contentWindow ||
@@ -80,10 +80,7 @@ export default class ParentAPI extends Emittery {
   emitToChild(eventName: string, data: unknown): void {
     debug(`emitToChild "%s" with data %O`, eventName, data);
 
-    this.child.postMessage(
-      createParentEmit(eventName, data),
-      this.childOrigin
-    );
+    this.child.postMessage(createParentEmit(eventName, data), this.childOrigin);
   }
 
   async handshake(): Promise<ParentAPI> {
@@ -113,7 +110,8 @@ export default class ParentAPI extends Emittery {
     };
 
     return new Promise((resolve, reject) => {
-      const onLoad = async () => {
+      debug("waiting for iframe to load");
+      this.frame.addEventListener("load", async () => {
         debug("child frame loaded");
         try {
           await tryHandshake();
@@ -122,17 +120,9 @@ export default class ParentAPI extends Emittery {
         } catch (err) {
           reject(err);
         }
-      };
-
-      // the iframe content might load before `handshake` is called,
-      // which is fine
-      if (this.child.document.readyState === "complete") {
-        debug("iframe was already loaded");
-        onLoad();
-      } else {
-        debug("waiting for iframe to load");
-        this.frame.addEventListener("load", onLoad);
-      }
+      });
+      // kick the iframe loading process off
+      this.frame.src = this.url;
     });
   }
 
