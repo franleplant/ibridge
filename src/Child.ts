@@ -47,8 +47,9 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
     debug(`dispatcher got event %O`, event);
     // We only want to set this up on the first handshake request
     if (!this.parentOrigin) {
-      const { kind, data = {}, type } = event.data || {};
-      const { eventName } = data;
+      debug(`no parentOrigin, trying to use event.origin %s`, event.origin);
+      const data = (event.data || {}) as Partial<IParentEmit>;
+      const { type, kind, eventName } = data;
 
       const isHandshake =
         kind === PARENT_EMIT &&
@@ -56,7 +57,10 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
         type === MESSAGE_TYPE;
 
       if (isHandshake) {
+        debug("handshake detected, saving origin");
         this.parentOrigin = event.origin;
+      } else {
+        debug("this is not a handshake, not saving the origin");
       }
     }
 
