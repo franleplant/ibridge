@@ -1,7 +1,6 @@
-import {JSDOM} from 'jsdom'
+import { JSDOM } from "jsdom";
 import iBridge from "./index";
 import isValidEvent from "./isValidEvent";
-
 
 jest.mock("./isValidEvent");
 
@@ -11,8 +10,8 @@ jest.mock("./isValidEvent");
 
 // Create a fake second window to
 // represent the child window
-const child = new JSDOM()
-const childWindow = child.window
+const child = new JSDOM();
+const childWindow = child.window;
 
 test("integration", async () => {
   const context = { ctxValue: "im a context" };
@@ -32,7 +31,7 @@ test("integration", async () => {
   // this should never be used in prod
   (parent as any).childOrigin = "*";
   // Hook the parent with the fake childWindow
-  (parent as any).child = childWindow
+  (parent as any).child = childWindow;
 
   const parentWindow = window;
 
