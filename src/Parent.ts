@@ -80,7 +80,7 @@ export default class ParentAPI extends Emittery {
   emitToChild(eventName: string, data: unknown): void {
     debug(`emitToChild "%s" with data %O`, eventName, data);
 
-    this.parent.postMessage(
+    this.child.postMessage(
       createParentEmit(eventName, data),
       this.childOrigin
     );

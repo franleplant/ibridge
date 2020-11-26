@@ -79,7 +79,7 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
     return this;
   }
 
-  async handleGet({ id, property, args }: IGetRequest): Promise<void> {
+  private async handleGet({ id, property, args }: IGetRequest): Promise<void> {
     // property might be a full lodash path
     const fn = _get(this.model, property);
     if (typeof fn !== "function") {
