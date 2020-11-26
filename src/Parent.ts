@@ -133,7 +133,7 @@ export default class ParentAPI extends Emittery {
 
   destroy(): void {
     debug("Parent: Destroying Postmate instance");
-    window.removeEventListener("message", this.listener, false);
+    window.removeEventListener("message", this.dispatcher, false);
     this.frame.parentNode?.removeChild(this.frame);
   }
 }

@@ -46,7 +46,7 @@ export default class ChildAPI<TModel = any, TContext = any> extends Emittery {
     this.on(GET_REQUEST, this.handleGet.bind(this) as any);
   }
 
-  private async dispatcher(event: MessageEvent): void {
+  private async dispatcher(event: MessageEvent): Promise<void> {
     debug("Received message %O", event.data);
     if (!isValidEvent(event, this.parentOrigin)) {
       debug(
