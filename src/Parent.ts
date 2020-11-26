@@ -6,7 +6,6 @@ import { IChildEmit, IGetResponse, IGetRequest, getResponse } from "./events";
 import { createParentEmit, isValidEvent } from "./events";
 import {
   GET_REQUEST,
-  GET_RESPONSE,
   HANDHSAKE_START,
   HANDSHAKE_REPLY,
   CHILD_EMIT,
@@ -31,7 +30,7 @@ export default class ParentAPI extends Emittery {
   /**
    * The maximum number of attempts to send a handshake request to the parent
    */
-  static maxHandshakeRequests: number = 5;
+  static maxHandshakeRequests = 5;
 
   constructor({
     container = document.body,
@@ -44,7 +43,7 @@ export default class ParentAPI extends Emittery {
     this.parent = window;
     this.frame = document.createElement("iframe");
     this.frame.name = name;
-    this.frame.classList.add.apply(this.frame.classList, classList);
+    this.frame.classList.add(...classList);
     debug("Parent: Loading frame %s", url);
     this.frame.src = url;
     this.container.appendChild(this.frame);
@@ -56,10 +55,10 @@ export default class ParentAPI extends Emittery {
 
     debug("Parent: Registering API");
     debug("Parent: Awaiting messages...");
-    this.parent.addEventListener("message", this.listener.bind(this), false);
+    this.parent.addEventListener("message", this.dispatcher.bind(this), false);
   }
 
-  private listener(event: MessageEvent): void {
+  private dispatcher(event: MessageEvent): void {
     if (!isValidEvent(event, this.childOrigin)) {
       debug(
         "parent origin mismatch. Expected %s got %s",
@@ -132,7 +131,7 @@ export default class ParentAPI extends Emittery {
     );
   }
 
-  destroy() {
+  destroy(): void {
     debug("Parent: Destroying Postmate instance");
     window.removeEventListener("message", this.listener, false);
     this.frame.parentNode?.removeChild(this.frame);

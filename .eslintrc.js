@@ -5,7 +5,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
-    mocha: true,
+    jest: true,
   },
 
   extends: [
@@ -16,16 +16,20 @@ module.exports = {
   ],
 
   rules: {
-    "@typescript-eslint/triple-slash-reference": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/interface-name-prefix": [2, "always"],
-    "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/camelcase": [
-      2,
-      { properties: "never", ignoreDestructuring: true },
+    "@typescript-eslint/triple-slash-reference": 0,
+
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        selector: "interface",
+        format: ["PascalCase"],
+        custom: {
+          regex: "^I[A-Z]",
+          match: true,
+        },
+      },
     ],
+    "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-use-before-define": [
       "error",
       { functions: false, classes: false, variables: false },
@@ -35,17 +39,20 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
-        varsIgnorePattern: "^__",
-        argsIgnorePattern: "^__",
+        varsIgnorePattern: "^_",
+        argsIgnorePattern: "^_",
         ignoreRestSiblings: true,
       },
     ],
   },
+
   overrides: [
     {
-      files: ["*.tsx?"],
+      files: ["*.test.ts"],
       rules: {
-        "@typescript-eslint/no-var-requires": "error",
+        // there is a lot of faking in tests so any becomes a necessity,
+        // so that we are able to fake stuff without faking EVERYTHING
+        "@typescript-eslint/no-explicit-any": "off",
       },
     },
   ],

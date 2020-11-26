@@ -3,7 +3,6 @@ import Emittery from "emittery";
 import _get from "lodash.get";
 import {
   GET_REQUEST,
-  GET_RESPONSE,
   HANDHSAKE_START,
   HANDSHAKE_REPLY,
   PARENT_EMIT,
@@ -22,10 +21,7 @@ export interface IConstructorArgs<TModel, TContext> {
   context: TContext;
 }
 
-export default class ChildAPI<
-  TModel = object,
-  TContext = any
-> extends Emittery {
+export default class ChildAPI<TModel = any, TContext = any> extends Emittery {
   private model: TModel;
   public readonly parent: Window;
   public readonly child: Window;
@@ -47,10 +43,10 @@ export default class ChildAPI<
     debug("Child: Awaiting messages...");
 
     this.child.addEventListener("message", this.dispatcher.bind(this));
-    this.listenToGet();
+    this.on(GET_REQUEST, this.handleGet.bind(this) as any);
   }
 
-  async dispatcher(event: MessageEvent) {
+  private async dispatcher(event: MessageEvent): void {
     debug("Received message %O", event.data);
     if (!isValidEvent(event, this.parentOrigin)) {
       debug(
@@ -85,30 +81,28 @@ export default class ChildAPI<
     return this;
   }
 
-  listenToGet(): void {
-    this.on(GET_REQUEST, (async ({ id, property, args }: IGetRequest) => {
-      // property might be a full lodash path
-      const fn = _get(this.model, property);
-      if (typeof fn !== "function") {
-        debug(
-          `the model ${property} was called, but it isn't a function, got ${fn}`
-        );
-        return;
-      }
+  async handleGet({ id, property, args }: IGetRequest): Promise<void> {
+    // property might be a full lodash path
+    const fn = _get(this.model, property);
+    if (typeof fn !== "function") {
+      debug(
+        `the model ${property} was called, but it isn't a function, got ${fn}`
+      );
+      return;
+    }
 
-      let value, error;
-      try {
-        value = await fn.call(this.context, ...args);
-      } catch (err) {
-        error = err;
-      }
+    let value, error;
+    try {
+      value = await fn.call(this.context, ...args);
+    } catch (err) {
+      error = err;
+    }
 
-      this.emitToParent(getResponse(id), {
-        id,
-        property,
-        value,
-        error,
-      } as IGetResponse);
-    }) as any);
+    this.emitToParent(getResponse(id), {
+      id,
+      property,
+      value,
+      error,
+    } as IGetResponse);
   }
 }
