@@ -59,6 +59,7 @@ test("Parent.get", async () => {
 
   const property = "module.getValue";
   const args = ["fake parameter"];
+  // call a fake model function in the fake child
   const valuePromise = parent.get(property, ...args);
   // should send the GET_REQUEST
   expect(window.postMessage).toHaveBeenCalledWith(
@@ -81,6 +82,6 @@ test("Parent.get", async () => {
   });
 
   const value = await valuePromise;
-
+  // should return the value
   expect(value).toBe(actualValue);
 });
