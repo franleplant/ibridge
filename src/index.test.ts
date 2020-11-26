@@ -1,16 +1,19 @@
 import iBridge from "./index";
-import {isValidEvent, createChildEmit, createParentEmit} from './events'
-const realEventsModule = jest.requireActual('./events');
+import { isValidEvent, createChildEmit, createParentEmit } from "./events";
+const realEventsModule = jest.requireActual("./events");
 
-jest.mock('./events');
+jest.mock("./events");
 
 // do not check for origin mismatch since we are doing
 // crazy testing faking
 (isValidEvent as jest.Mock).mockImplementation(() => true);
 // weird way of telling jest not mock these members
-(createChildEmit as jest.Mock).mockImplementation(realEventsModule.createChildEmit);
-(createParentEmit as jest.Mock).mockImplementation(realEventsModule.createParentEmit);
-
+(createChildEmit as jest.Mock).mockImplementation(
+  realEventsModule.createChildEmit
+);
+(createParentEmit as jest.Mock).mockImplementation(
+  realEventsModule.createParentEmit
+);
 
 test("integration", async () => {
   const model = {};

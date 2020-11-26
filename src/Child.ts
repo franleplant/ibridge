@@ -61,7 +61,7 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
   }
 
   emitToParent(eventName: string, data: unknown): void {
-    debug(`emitToParent "%s" with data %O`,eventName, data);
+    debug(`emitToParent "%s" with data %O`, eventName, data);
 
     this.parent.postMessage(
       createChildEmit(eventName, data),
@@ -74,7 +74,7 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
     debug("received handshake from Parent");
     debug("sending handshake reply to Parent");
     this.emitToParent(HANDSHAKE_REPLY, undefined);
-    debug("handshake ok")
+    debug("handshake ok");
     return this;
   }
 

@@ -77,7 +77,7 @@ export default class ParentAPI extends Emittery {
   }
 
   emitToChild(eventName: string, data: unknown): void {
-    debug(`emitToChild "%s" with data %O`,eventName, data);
+    debug(`emitToChild "%s" with data %O`, eventName, data);
 
     this.parent.postMessage(
       createParentEmit(eventName, data),
@@ -116,7 +116,7 @@ export default class ParentAPI extends Emittery {
         debug("child frame loaded");
         try {
           await tryHandshake();
-          debug("handshake ok")
+          debug("handshake ok");
           resolve(this);
         } catch (err) {
           reject(err);
