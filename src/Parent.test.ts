@@ -3,17 +3,15 @@ import iBridge from "./index";
 import { CHILD_EMIT, GET_RESPONSE, HANDSHAKE_REPLY } from "./constants";
 import { createParentEmit, isValidEvent, getResponse } from "./events";
 
-jest.mock('./events');
-jest.mock('uuid')
+jest.mock("./events");
+jest.mock("uuid");
 
-const parentEmit = {fake: true, parent: "emit"};
+const parentEmit = { fake: true, parent: "emit" };
 (createParentEmit as jest.Mock).mockImplementation(() => parentEmit);
 (isValidEvent as jest.Mock).mockImplementation(() => true);
 
 const id = 123;
 (uuid as jest.Mock).mockImplementation(() => id);
-
-
 
 test("Parent handshake", async () => {
   window.addEventListener = jest.fn();
@@ -33,7 +31,10 @@ test("Parent handshake", async () => {
   // should register the dispatcher
   expect(window.addEventListener).toHaveBeenCalled();
   // should send the handshake request
-  expect(window.postMessage).toHaveBeenCalledWith( parentEmit, "http://localhost",);
+  expect(window.postMessage).toHaveBeenCalledWith(
+    parentEmit,
+    "http://localhost"
+  );
   // should get the handhsake response
   (parent as any).dispatcher({
     data: {
@@ -45,11 +46,10 @@ test("Parent handshake", async () => {
 
   // let's wait for the handshake to finish
   await handshake;
-
 });
 
 test("Parent.get", async () => {
-  const id = 123
+  const id = 123;
   const eventName = `${GET_RESPONSE}/${id}`;
   (getResponse as jest.Mock).mockImplementation(() => eventName);
   window.postMessage = jest.fn();
@@ -57,11 +57,14 @@ test("Parent.get", async () => {
   // create the Parent
   const parent = new iBridge.Parent({ url: "www.fake.com" });
 
-  const property = "module.getValue"
-  const args = ["fake parameter"]
+  const property = "module.getValue";
+  const args = ["fake parameter"];
   const valuePromise = parent.get(property, ...args);
   // should send the GET_REQUEST
-  expect(window.postMessage).toHaveBeenCalledWith( parentEmit, "http://localhost",);
+  expect(window.postMessage).toHaveBeenCalledWith(
+    parentEmit,
+    "http://localhost"
+  );
 
   const actualValue = "I came from the child";
   // fake dispatch GET_RESPONSE
@@ -77,7 +80,7 @@ test("Parent.get", async () => {
     },
   });
 
-  const value = await valuePromise
+  const value = await valuePromise;
 
-  expect(value).toBe(actualValue)
-})
+  expect(value).toBe(actualValue);
+});

@@ -59,7 +59,7 @@ export default class ParentAPI extends Emittery {
   }
 
   private dispatcher(event: MessageEvent): void {
-    debug(`dispatcher %O`, event)
+    debug(`dispatcher %O`, event);
     if (!isValidEvent(event, this.childOrigin)) {
       debug(
         "parent origin mismatch. Expected %s got %s",
@@ -116,8 +116,8 @@ export default class ParentAPI extends Emittery {
     const id = uuid();
 
     this.emitToChild(GET_REQUEST, { id, property, args } as IGetRequest);
-    const eventName =  getResponse(id)
-    debug("get await for response event %s", eventName)
+    const eventName = getResponse(id);
+    debug("get await for response event %s", eventName);
     const { value, error } = (await this.once(eventName)) as IGetResponse;
     if (error) {
       throw error;
