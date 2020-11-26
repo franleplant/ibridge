@@ -46,9 +46,9 @@ export default class ParentAPI extends Emittery {
     this.frame.name = name;
     this.frame.classList.add(...classList);
     debug("Loading frame %s", url);
-    this.frame.contentWindow?.document.readyState;
     this.frame.src = url;
     this.container.appendChild(this.frame);
+    this.frame.contentWindow?.document.readyState;
 
     this.child =
       this.frame.contentWindow ||

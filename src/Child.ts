@@ -6,6 +6,7 @@ import {
   HANDHSAKE_START,
   HANDSHAKE_REPLY,
   PARENT_EMIT,
+  MESSAGE_TYPE,
 } from "./constants";
 
 import { getResponse, IGetRequest, IGetResponse, IParentEmit } from "./events";
@@ -23,14 +24,13 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
   private model: TModel;
   public readonly parent: Window;
   public readonly child: Window;
-  public readonly parentOrigin: string;
+  public parentOrigin?: string;
   public context?: TContext;
 
   constructor(model: TModel, context?: TContext) {
     super();
     this.child = window;
     this.parent = this.child.parent;
-    this.parentOrigin = this.parent.origin;
     this.model = model;
     this.context = context;
 
@@ -45,6 +45,21 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
 
   private async dispatcher(event: MessageEvent): Promise<void> {
     debug(`dispatcher got event %O`, event);
+    // We only want to set this up on the first handshake request
+    if (!this.parentOrigin) {
+      const { kind, data = {}, type } = event.data || {};
+      const { eventName } = data;
+
+      const isHandshake =
+        kind === PARENT_EMIT &&
+        eventName === HANDHSAKE_START &&
+        type === MESSAGE_TYPE;
+
+      if (isHandshake) {
+        this.parentOrigin = event.origin;
+      }
+    }
+
     if (!isValidEvent(event, this.parentOrigin)) {
       debug(
         "parent origin mismatch. Expected %s got %s",
@@ -66,7 +81,7 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
 
     this.parent.postMessage(
       createChildEmit(eventName, data),
-      this.parentOrigin
+      this.parentOrigin!
     );
   }
 
@@ -79,7 +94,7 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
     return this;
   }
 
-  private async handleGet({ id, property, args }: IGetRequest): Promise<void> {
+  async handleGet({ id, property, args }: IGetRequest): Promise<void> {
     // property might be a full lodash path
     const fn = _get(this.model, property);
     if (typeof fn !== "function") {
