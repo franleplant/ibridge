@@ -13,10 +13,5 @@
     "skipLibCheck": true,
     "downlevelIteration": true
   },
-  "exclude": [
-    "node_modules",
-    "./dist",
-    "./__mocks__",
-    "**/*.mock.*"
-  ]
+  "exclude": ["node_modules", "./dist", "./__mocks__", "**/*.mock.*"]
 }

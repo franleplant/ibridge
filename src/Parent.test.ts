@@ -13,7 +13,7 @@ const parentEmit = { fake: true, parent: "emit" };
 const id = 123;
 (uuid as jest.Mock).mockImplementation(() => id);
 
-test("Parent handshake", async () => {
+test.skip("Parent.handshake", async () => {
   window.addEventListener = jest.fn();
   window.postMessage = jest.fn();
   // create the Parent
@@ -21,8 +21,11 @@ test("Parent handshake", async () => {
 
   const iframe = parent.frame;
   iframe.addEventListener = jest.fn();
+
+  // user level api
   const handshake = parent.handshake();
-  // we should listen to the iframe "load" event
+
+  // parent should listen to the iframe "load" event
   expect(iframe.addEventListener).toHaveBeenCalled();
   const onLoad = (iframe.addEventListener as jest.Mock).mock.calls[0][1];
   // call it manually
@@ -35,7 +38,7 @@ test("Parent handshake", async () => {
     parentEmit,
     "http://localhost"
   );
-  // should get the handhsake response
+  // produce a fake handshake response
   (parent as any).dispatcher({
     data: {
       kind: CHILD_EMIT,
@@ -44,11 +47,11 @@ test("Parent handshake", async () => {
     },
   });
 
-  // let's wait for the handshake to finish
+  // handshake should work without errors
   await handshake;
 });
 
-test("Parent.get", async () => {
+test.skip("Parent.get", async () => {
   const id = 123;
   const eventName = `${GET_RESPONSE}/${id}`;
   (getResponse as jest.Mock).mockImplementation(() => eventName);

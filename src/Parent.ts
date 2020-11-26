@@ -45,6 +45,7 @@ export default class ParentAPI extends Emittery {
     this.frame.name = name;
     this.frame.classList.add(...classList);
     debug("Loading frame %s", url);
+    this.frame.contentWindow?.document.readyState;
     this.frame.src = url;
     this.container.appendChild(this.frame);
 
@@ -53,13 +54,12 @@ export default class ParentAPI extends Emittery {
       (this.frame.contentDocument as any)?.parentWindow;
     this.childOrigin = resolveOrigin(url);
 
-    debug("Registering API");
-    debug("Awaiting messages...");
+    debug("setting up main listeners");
     this.parent.addEventListener("message", this.dispatcher.bind(this), false);
   }
 
   private dispatcher(event: MessageEvent): void {
-    debug(`dispatcher %O`, event);
+    debug(`dispatcher got event %O`, event);
     if (!isValidEvent(event, this.childOrigin)) {
       debug(
         "parent origin mismatch. Expected %s got %s",
@@ -71,9 +71,18 @@ export default class ParentAPI extends Emittery {
 
     if (event.data.kind === CHILD_EMIT) {
       const { eventName, data } = event.data as IChildEmit;
-      debug(`dispatcher emit %s %O`, eventName, data);
+      debug(`dispatcher emit internally "%s" with data %O`, eventName, data);
       this.emit(eventName, data);
     }
+  }
+
+  emitToChild(eventName: string, data: unknown): void {
+    debug(`emitToChild "%s" with data %O`,eventName, data);
+
+    this.parent.postMessage(
+      createParentEmit(eventName, data),
+      this.childOrigin
+    );
   }
 
   async handshake(): Promise<ParentAPI> {
@@ -94,6 +103,8 @@ export default class ParentAPI extends Emittery {
         }
 
         debug("Received handshake reply from Child");
+        // Clean up any outstanding handhsake reply "once" listeners
+        this.clearListeners(HANDSHAKE_REPLY);
         return;
       }
 
@@ -101,14 +112,26 @@ export default class ParentAPI extends Emittery {
     };
 
     return new Promise((resolve, reject) => {
-      this.frame.addEventListener("load", async () => {
+      const onLoad = async () => {
+        debug("child frame loaded");
         try {
           await tryHandshake();
+          debug("handshake ok")
           resolve(this);
         } catch (err) {
           reject(err);
         }
-      });
+      };
+
+      // the iframe content might load before `handshake` is called,
+      // which is fine
+      if (this.child.document.readyState === "complete") {
+        debug("iframe was already loaded");
+        onLoad();
+      } else {
+        debug("waiting for iframe to load");
+        this.frame.addEventListener("load", onLoad);
+      }
     });
   }
 
@@ -126,15 +149,6 @@ export default class ParentAPI extends Emittery {
     return value;
   }
 
-  emitToChild(eventName: string, data: unknown): void {
-    debug(`emitToChild "${eventName}"`, data);
-
-    this.parent.postMessage(
-      createParentEmit(eventName, data),
-      this.childOrigin
-    );
-  }
-
   destroy(): void {
     debug("Destroying Postmate instance");
     window.removeEventListener("message", this.dispatcher, false);
@@ -144,6 +158,7 @@ export default class ParentAPI extends Emittery {
 
 /**
  * Takes a URL and returns the origin
+ * TODO how about using URL? what is expected of this?
  */
 function resolveOrigin(url: string): string {
   const a = document.createElement("a");

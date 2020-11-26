@@ -33,15 +33,17 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
     this.model = model;
     this.context = context;
 
-    debug("Child: Registering API");
-    debug("Child: Awaiting messages...");
+    this.setListeners();
+  }
 
+  private setListeners(): void {
+    debug("setting up main listeners");
     this.child.addEventListener("message", this.dispatcher.bind(this));
     this.on(GET_REQUEST, this.handleGet.bind(this) as any);
   }
 
   private async dispatcher(event: MessageEvent): Promise<void> {
-    debug("Received message %O", event.data);
+    debug(`dispatcher got event %O`, event);
     if (!isValidEvent(event, this.parentOrigin)) {
       debug(
         "parent origin mismatch. Expected %s got %s",
@@ -53,13 +55,13 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
 
     if (event.data.kind === PARENT_EMIT) {
       const { eventName, data } = event.data as IParentEmit;
-      debug(`Parent: Received event emission: ${eventName}`);
+      debug(`dispatcher emit internally "%s" with data %O`, eventName, data);
       this.emit(eventName, data);
     }
   }
 
   emitToParent(eventName: string, data: unknown): void {
-    debug(`Emitting Event "${eventName}"`, data);
+    debug(`emitToParent "%s" with data %O`,eventName, data);
 
     this.parent.postMessage(
       createChildEmit(eventName, data),
@@ -69,9 +71,10 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
 
   async handshake(): Promise<ChildAPI<TModel, TContext>> {
     await this.once(HANDHSAKE_START);
-    debug("Child: Received handshake from Parent");
-    debug("Child: Sending handshake reply to Parent");
+    debug("received handshake from Parent");
+    debug("sending handshake reply to Parent");
     this.emitToParent(HANDSHAKE_REPLY, undefined);
+    debug("handshake ok")
     return this;
   }
 
