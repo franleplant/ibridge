@@ -1,28 +1,4 @@
-export const MESSAGE_TYPE = "application/x-postmate-v1+json";
-
-export interface IHandshakeReq {
-  kind: "handshake";
-  type: typeof MESSAGE_TYPE;
-}
-
-export interface IHandshakeRes {
-  kind: "handshake-reply";
-  type: typeof MESSAGE_TYPE;
-}
-
-export function createHandshakeReq(): IHandshakeReq {
-  return {
-    kind: "handshake",
-    type: MESSAGE_TYPE,
-  };
-}
-
-export function createHandshakeRes(): IHandshakeRes {
-  return {
-    kind: "handshake-reply",
-    type: MESSAGE_TYPE,
-  };
-}
+import { CHILD_EMIT, MESSAGE_TYPE, PARENT_EMIT } from "./constants";
 
 export interface IGetData {
   id: string;
@@ -42,22 +18,22 @@ export interface IRejectData {
 
 export interface IChildEmit {
   type: typeof MESSAGE_TYPE;
-  kind: "child-emit";
+  kind: typeof CHILD_EMIT;
   eventName: string;
   data: unknown;
 }
 
 export interface IParentEmit {
   type: typeof MESSAGE_TYPE;
-  kind: "parent-emit";
+  kind: typeof PARENT_EMIT;
   eventName: string;
-  data: unknown;
+  data: any;
 }
 
 export function createChildEmit(eventName: string, data: unknown): IChildEmit {
   return {
     type: MESSAGE_TYPE,
-    kind: "child-emit",
+    kind: CHILD_EMIT,
     eventName,
     data,
   };
@@ -69,7 +45,7 @@ export function createParentEmit(
 ): IParentEmit {
   return {
     type: MESSAGE_TYPE,
-    kind: "parent-emit",
+    kind: PARENT_EMIT,
     eventName,
     data,
   };

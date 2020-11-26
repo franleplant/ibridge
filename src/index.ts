@@ -1,2 +1,4 @@
-export { default as ParentAPI } from "./ParentAPI";
-export { default as ChildAPI } from "./ChildAPI";
+import Parent from "./Parent";
+import Child from "./Child";
+
+export default { Parent, Child };
