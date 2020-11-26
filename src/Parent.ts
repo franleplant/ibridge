@@ -3,7 +3,8 @@ import debugFactory from "debug";
 import Emittery from "emittery";
 
 import { IChildEmit, IGetResponse, IGetRequest, getResponse } from "./events";
-import { createParentEmit, isValidEvent } from "./events";
+import { createParentEmit } from "./events";
+import isValidEvent from "./isValidEvent";
 import {
   GET_REQUEST,
   HANDHSAKE_START,

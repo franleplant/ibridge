@@ -9,7 +9,8 @@ import {
 } from "./constants";
 
 import { getResponse, IGetRequest, IGetResponse, IParentEmit } from "./events";
-import { createChildEmit, isValidEvent } from "./events";
+import { createChildEmit } from "./events";
+import isValidEvent from "./isValidEvent";
 
 const debug = debugFactory("ibridge:child");
 

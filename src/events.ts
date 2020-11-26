@@ -57,18 +57,3 @@ export function createParentEmit(
   };
 }
 
-/**
- * Ensures that a message is safe to interpret
- */
-export function isValidEvent(
-  event: MessageEvent,
-  allowedOrigin: string
-): boolean {
-  const validators = [
-    () => event.origin === allowedOrigin,
-    () => !!event.data,
-    () => event.data?.type === MESSAGE_TYPE,
-  ];
-
-  return validators.every((validator) => validator());
-}
