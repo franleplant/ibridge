@@ -2,17 +2,11 @@ import { v4 as uuid } from "uuid";
 import debugFactory from "debug";
 import Emittery from "emittery";
 
-import type {
-  IChildEmit,
-  IRejectData,
-  IResolveData,
-  IGetData,
-} from "./events";
-import {  createParentEmit, isValidEvent } from "./events";
+import { IChildEmit, IGetResponse, IGetRequest, getResponse } from "./events";
+import { createParentEmit, isValidEvent } from "./events";
 import {
-  GET_START,
-  GET_REJECT,
-  GET_RESOLVE,
+  GET_REQUEST,
+  GET_RESPONSE,
   HANDHSAKE_START,
   HANDSHAKE_REPLY,
   CHILD_EMIT,
@@ -117,34 +111,16 @@ export default class ParentAPI extends Emittery {
     });
   }
 
-  get(property: string, ...args: Array<any>): Promise<any> {
+  async get(property: string, ...args: Array<any>): Promise<any> {
     const id = uuid();
 
-    return new Promise((resolve, reject) => {
-      this.emitToChild(GET_START, { id, property, args } as IGetData);
-      const onResolve = ({ value, id: receivedId }: IResolveData) => {
-        if (receivedId !== id) {
-          return;
-        }
+    this.emitToChild(GET_REQUEST, { id, property, args } as IGetRequest);
+    const { value, error } = (await this.once(getResponse(id))) as IGetResponse;
+    if (error) {
+      throw error;
+    }
 
-        this.off(GET_RESOLVE, onResolve as any);
-        this.off(GET_REJECT, onReject as any);
-        resolve(value);
-      };
-
-      const onReject = ({ error, id: receivedId }: IRejectData) => {
-        if (receivedId !== id) {
-          return;
-        }
-
-        this.off(GET_RESOLVE, onResolve as any);
-        this.off(GET_REJECT, onReject as any);
-        reject(error);
-      };
-
-      this.on(GET_RESOLVE, onResolve as any);
-      this.on(GET_REJECT, onReject as any);
-    });
+    return value;
   }
 
   emitToChild(eventName: string, data: unknown): void {

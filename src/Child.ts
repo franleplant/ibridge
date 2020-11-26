@@ -2,20 +2,14 @@ import debugFactory from "debug";
 import Emittery from "emittery";
 import _get from "lodash.get";
 import {
-  GET_START,
-  GET_RESOLVE,
-  GET_REJECT,
+  GET_REQUEST,
+  GET_RESPONSE,
   HANDHSAKE_START,
   HANDSHAKE_REPLY,
   PARENT_EMIT,
 } from "./constants";
 
-import type {
-  IGetData,
-  IRejectData,
-  IResolveData,
-  IParentEmit,
-} from "./events";
+import { getResponse, IGetRequest, IGetResponse, IParentEmit } from "./events";
 import { createChildEmit, isValidEvent } from "./events";
 
 const debug = debugFactory("CHILD");
@@ -92,7 +86,7 @@ export default class ChildAPI<
   }
 
   listenToGet(): void {
-    this.on(GET_START, (async ({ id, property, args }: IGetData) => {
+    this.on(GET_REQUEST, (async ({ id, property, args }: IGetRequest) => {
       // property might be a full lodash path
       const fn = _get(this.model, property);
       if (typeof fn !== "function") {
@@ -102,16 +96,19 @@ export default class ChildAPI<
         return;
       }
 
+      let value, error;
       try {
-        const value = await fn.call(this.context, ...args);
-        this.emitToParent(GET_RESOLVE, {
-          id,
-          property,
-          value,
-        } as IResolveData);
-      } catch (error) {
-        this.emitToParent(GET_REJECT, { id, property, error } as IRejectData);
+        value = await fn.call(this.context, ...args);
+      } catch (err) {
+        error = err;
       }
+
+      this.emitToParent(getResponse(id), {
+        id,
+        property,
+        value,
+        error,
+      } as IGetResponse);
     }) as any);
   }
 }

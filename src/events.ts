@@ -1,19 +1,25 @@
-import { CHILD_EMIT, MESSAGE_TYPE, PARENT_EMIT } from "./constants";
+import {
+  GET_RESPONSE,
+  CHILD_EMIT,
+  MESSAGE_TYPE,
+  PARENT_EMIT,
+} from "./constants";
 
-export interface IGetData {
+export function getResponse(id: string): string {
+  return `${GET_RESPONSE}/${id}`;
+}
+
+export interface IGetRequest {
   id: string;
   property: string;
   args: Array<any>;
 }
 
-export interface IResolveData {
+export interface IGetResponse {
   id: string;
-  value: any;
-}
-
-export interface IRejectData {
-  id: string;
-  error: any;
+  property: string;
+  value?: any;
+  error?: any;
 }
 
 export interface IChildEmit {
