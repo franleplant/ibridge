@@ -42,7 +42,7 @@ module.exports = {
   output: {
     filename: "index.js",
     path: path.resolve(__dirname, "dist"),
-    //library: "",
+    library: "ibridge",
     libraryTarget: "umd",
     globalObject: "this",
   },

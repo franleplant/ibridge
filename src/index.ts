@@ -1,3 +1,5 @@
+import "regenerator-runtime/runtime.js";
+
 import Parent from "./Parent";
 import Child from "./Child";
 

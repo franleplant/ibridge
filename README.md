@@ -2,6 +2,10 @@
 
 A library for awesome iframe communication between parent and child.
 
+TODO
+- `localStorage.debug = "ibridge:*"`
+- `ibridge.Parent.maxHandshakeRequests = x`
+
 ## Examples
 
 Parent setup.

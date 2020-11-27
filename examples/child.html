@@ -1,0 +1,37 @@
+<html>
+  <body>
+    <script src="../dist/index.js"></script>
+    <script>
+      localStorage.debug = "*";
+      (async () => {
+        try {
+          const context = {
+            vehicles: {
+              getCar(carId) {
+                return Promise.resolve({ fake: true, carId });
+              },
+            },
+          };
+
+          const model = {
+            vehicles: {
+              getCar(carId) {
+                const context = this;
+                context.vehicles.getCar(carId);
+              },
+            },
+            getError() {
+              return Promise.reject("fake error");
+            },
+          };
+
+          const ichild = new ibridge.Child(window.model, window.context);
+          ichild.parentOrigin = "*"
+          await ichild.handshake();
+        } catch (err) {
+          console.error(err);
+        }
+      })();
+    </script>
+  </body>
+</html>

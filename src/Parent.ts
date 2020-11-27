@@ -26,7 +26,7 @@ export default class ParentAPI extends Emittery {
   public readonly parent: Window;
   public readonly child: Window;
   public readonly frame: HTMLIFrameElement;
-  public readonly childOrigin: string;
+  public childOrigin: string;
   public readonly container: HTMLElement;
 
   /**
