@@ -10,6 +10,8 @@
 
 <div class="hero">🌉</div>
 
+<div style="font-size: 100px;">🌉</div>
+
 <a style="font-size: 100px;">🌉</a>
 
 
