@@ -4,6 +4,7 @@
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "repository": "https://github.com/franleplant/ibridge",
   "engines": {
     "node": ">=14.0.0"
   },
