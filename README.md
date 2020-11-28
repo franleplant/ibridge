@@ -2,17 +2,11 @@
 
 # 🌉
 
-<style>
-  .hero,  .hero > * {
-    font-size: 100px;
-  }
-</style>
 
-<div class="hero">🌉</div>
+<div id="asd" style="font-size: 100px;">
+  <g-emoji class="g-emoji" alias="bridge_at_night" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f309.png">🌉</g-emoji>
+</div>
 
-<div style="font-size: 100px;">🌉</div>
-
-<a style="font-size: 100px;">🌉</a>
 
 
 A library for awesome iframe communication between parent and child.
