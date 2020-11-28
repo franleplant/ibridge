@@ -124,11 +124,11 @@ iparent.on("pong", msg => console.log(msg))
 ```
 
 ```typescript
-// send message to parent
-ichild.emitToParent("pong", {value: "i am child"})
-
-// hear message from parent
-ichild.on("drink", msg => console.log(msg))
+// listen to events from the parent
+ichild.on("ping", msg => {
+  // send message to the parent
+  ichild.emitToParent("pong", {value: "i am child"})
+})
 ```
 
 
