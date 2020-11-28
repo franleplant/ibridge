@@ -8,7 +8,7 @@
   }
 </style>
 
-<div class="hero"></div>
+<div class="hero">🌉</div>
 
 <a style="font-size: 100px;">🌉</a>
 
