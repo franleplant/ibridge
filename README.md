@@ -1,4 +1,6 @@
 
+ ![Node.js CI](https://github.com/franleplant/ibridge/workflows/Node.js%20CI/badge.svg)
+
 <h1 align="center">
   <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f309.svg" alt="ibridge logo" width="300"/>
   </br>
@@ -8,7 +10,7 @@
 
 
 <p align="center">
-  A tiny, promise based, type safe library for easy, bidirectional and secure iframe communication.
+  A tiny, promise based, type safe library for easy, bidirectional and secure iframe communication. 
 </p>
 
 
