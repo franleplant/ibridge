@@ -177,3 +177,8 @@ If you want to allow any domain then don't set this header.
 
 If your page won't be hosted inside an iframe you want to set this up to `'none'` for extra protection.
 
+
+## License: MIT
+
+This is based on [postmate](https://github.com/dollarshaveclub/postmate),
+original implementation to the postmate contributors credit.
