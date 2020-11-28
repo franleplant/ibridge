@@ -17,7 +17,7 @@
             vehicles: {
               getCar(carId) {
                 const context = this;
-                context.vehicles.getCar(carId);
+                return context.vehicles.getCar(carId);
               },
             },
             getError() {
@@ -25,8 +25,7 @@
             },
           };
 
-          const ichild = new ibridge.Child(window.model, window.context);
-          ichild.parentOrigin = "*"
+          const ichild = new ibridge.Child(model, context);
           await ichild.handshake();
         } catch (err) {
           console.error(err);

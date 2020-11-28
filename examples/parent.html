@@ -8,9 +8,6 @@
           const iparent = new ibridge.Parent({
             url: "http://localhost:8080/examples/child.html",
           });
-          window.iparent = iparent
-          iparent.childOrigin = "*"
-          console.log("asdasd")
           await iparent.handshake();
           const value = await iparent.get("vehicles.getCar", 123);
 

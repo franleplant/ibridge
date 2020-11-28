@@ -19,6 +19,7 @@ interface IConstructorArgs {
   url: string;
   name?: string;
   classList?: Array<string>;
+  showIframe?: boolean;
 }
 
 export default class ParentAPI extends Emittery {
@@ -39,6 +40,7 @@ export default class ParentAPI extends Emittery {
     url,
     name = "",
     classList = [],
+    showIframe = false,
   }: IConstructorArgs) {
     super();
     this.url = url;
@@ -47,6 +49,12 @@ export default class ParentAPI extends Emittery {
     this.frame = document.createElement("iframe");
     this.frame.name = name;
     this.frame.classList.add(...classList);
+    if (!showIframe) {
+      // Make it invisible
+      this.frame.style.width = "0";
+      this.frame.style.height = "0";
+      this.frame.style.border = "0";
+    }
     debug("Loading frame %s", url);
     this.container.appendChild(this.frame);
 
