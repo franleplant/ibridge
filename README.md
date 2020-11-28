@@ -1,15 +1,15 @@
-# ibridge
 
-# 🌉
-
-
-<div id="asd" style="font-size: 100px;">
-  <g-emoji class="g-emoji" alias="bridge_at_night" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f309.png">🌉</g-emoji>
-</div>
-
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/1f309.svg" alt="ibridge logo" width="300"/>
+  </br>
+  </br>  
+  ibridge
+</h1>
 
 
-A library for awesome iframe communication between parent and child.
+<p align="center">
+A tiny library for easy, bidirectional and secure iframe communication.
+  </p>
 
 TODO
 - `localStorage.debug = "ibridge:*"`
