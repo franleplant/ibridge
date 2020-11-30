@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / "constants"
+> [Globals](../README.md) / "constants"
 
 # Module: "constants"
 
@@ -22,7 +22,7 @@
 
 • `Const` **CHILD\_EMIT**: \"child-emit\" = "child-emit"
 
-*Defined in [src/constants.ts:5](https://github.com/franleplant/ibridge/blob/f2182af/src/constants.ts#L5)*
+*Defined in [src/constants.ts:5](https://github.com/franleplant/ibridge/blob/046b2f2/src/constants.ts#L5)*
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 • `Const` **GET\_REQUEST**: \"get-request\" = "get-request"
 
-*Defined in [src/constants.ts:6](https://github.com/franleplant/ibridge/blob/f2182af/src/constants.ts#L6)*
+*Defined in [src/constants.ts:6](https://github.com/franleplant/ibridge/blob/046b2f2/src/constants.ts#L6)*
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 • `Const` **GET\_RESPONSE**: \"get-response\" = "get-response"
 
-*Defined in [src/constants.ts:7](https://github.com/franleplant/ibridge/blob/f2182af/src/constants.ts#L7)*
+*Defined in [src/constants.ts:7](https://github.com/franleplant/ibridge/blob/046b2f2/src/constants.ts#L7)*
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 • `Const` **HANDHSAKE\_START**: \"handshake\" = "handshake"
 
-*Defined in [src/constants.ts:2](https://github.com/franleplant/ibridge/blob/f2182af/src/constants.ts#L2)*
+*Defined in [src/constants.ts:2](https://github.com/franleplant/ibridge/blob/046b2f2/src/constants.ts#L2)*
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 • `Const` **HANDSHAKE\_REPLY**: \"handshake-reply\" = "handshake-reply"
 
-*Defined in [src/constants.ts:3](https://github.com/franleplant/ibridge/blob/f2182af/src/constants.ts#L3)*
+*Defined in [src/constants.ts:3](https://github.com/franleplant/ibridge/blob/046b2f2/src/constants.ts#L3)*
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 • `Const` **MESSAGE\_TYPE**: \"application/x-ibridge-v1+json\" = "application/x-ibridge-v1+json"
 
-*Defined in [src/constants.ts:1](https://github.com/franleplant/ibridge/blob/f2182af/src/constants.ts#L1)*
+*Defined in [src/constants.ts:1](https://github.com/franleplant/ibridge/blob/046b2f2/src/constants.ts#L1)*
 
 ___
 
@@ -70,4 +70,4 @@ ___
 
 • `Const` **PARENT\_EMIT**: \"parent-emit\" = "parent-emit"
 
-*Defined in [src/constants.ts:4](https://github.com/franleplant/ibridge/blob/f2182af/src/constants.ts#L4)*
+*Defined in [src/constants.ts:4](https://github.com/franleplant/ibridge/blob/046b2f2/src/constants.ts#L4)*

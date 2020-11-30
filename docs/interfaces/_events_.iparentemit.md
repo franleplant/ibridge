@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["events"](../modules/_events_.md) / IParentEmit
+> [Globals](../README.md) / ["events"](../modules/_events_.md) / IParentEmit
 
 # Interface: IParentEmit
 
@@ -23,7 +23,7 @@
 
 •  **data**: any
 
-*Defined in [src/events.ts:36](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L36)*
+*Defined in [src/events.ts:36](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L36)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 •  **eventName**: string
 
-*Defined in [src/events.ts:35](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L35)*
+*Defined in [src/events.ts:35](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L35)*
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 •  **kind**: *typeof* PARENT\_EMIT
 
-*Defined in [src/events.ts:34](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L34)*
+*Defined in [src/events.ts:34](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L34)*
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 •  **type**: *typeof* MESSAGE\_TYPE
 
-*Defined in [src/events.ts:33](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L33)*
+*Defined in [src/events.ts:33](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L33)*

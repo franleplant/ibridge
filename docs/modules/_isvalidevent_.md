@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / "isValidEvent"
+> [Globals](../README.md) / "isValidEvent"
 
 # Module: "isValidEvent"
 
@@ -16,7 +16,7 @@
 
 ▸ **isValidEvent**(`event`: MessageEvent, `allowedOrigin`: string \| undefined): boolean
 
-*Defined in [src/isValidEvent.ts:6](https://github.com/franleplant/ibridge/blob/f2182af/src/isValidEvent.ts#L6)*
+*Defined in [src/isValidEvent.ts:6](https://github.com/franleplant/ibridge/blob/046b2f2/src/isValidEvent.ts#L6)*
 
 Ensures that a message is safe to interpret
 

@@ -1,5 +1,5 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / "integration.test"
+> [Globals](../README.md) / "integration.test"
 
 # Module: "integration.test"

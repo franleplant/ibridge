@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["events"](../modules/_events_.md) / IChildEmit
+> [Globals](../README.md) / ["events"](../modules/_events_.md) / IChildEmit
 
 # Interface: IChildEmit
 
@@ -23,7 +23,7 @@
 
 •  **data**: unknown
 
-*Defined in [src/events.ts:29](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L29)*
+*Defined in [src/events.ts:29](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L29)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 •  **eventName**: string
 
-*Defined in [src/events.ts:28](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L28)*
+*Defined in [src/events.ts:28](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L28)*
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 •  **kind**: *typeof* CHILD\_EMIT
 
-*Defined in [src/events.ts:27](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L27)*
+*Defined in [src/events.ts:27](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L27)*
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 •  **type**: *typeof* MESSAGE\_TYPE
 
-*Defined in [src/events.ts:26](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L26)*
+*Defined in [src/events.ts:26](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L26)*

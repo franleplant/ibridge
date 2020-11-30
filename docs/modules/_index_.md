@@ -1,5 +1,5 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / "index"
+> [Globals](../README.md) / "index"
 
 # Module: "index"

@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["Child"](../modules/_child_.md) / ChildAPI
+> [Globals](../README.md) / ["Child"](../modules/_child_.md) / ChildAPI
 
 # Class: ChildAPI\<TModel, TContext>
 
@@ -98,7 +98,7 @@ Removes an event subscription.
 
 \+ **new ChildAPI**(`model`: TModel, `context?`: TContext): [ChildAPI](_child_.childapi.md)
 
-*Defined in [src/Child.ts:28](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L28)*
+*Defined in [src/Child.ts:28](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L28)*
 
 #### Parameters:
 
@@ -115,7 +115,7 @@ Name | Type |
 
 • `Readonly` **child**: Window
 
-*Defined in [src/Child.ts:26](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L26)*
+*Defined in [src/Child.ts:26](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L26)*
 
 ___
 
@@ -123,7 +123,7 @@ ___
 
 • `Optional` **context**: TContext
 
-*Defined in [src/Child.ts:28](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L28)*
+*Defined in [src/Child.ts:28](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L28)*
 
 ___
 
@@ -131,7 +131,7 @@ ___
 
 • `Private` **model**: TModel
 
-*Defined in [src/Child.ts:24](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L24)*
+*Defined in [src/Child.ts:24](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L24)*
 
 ___
 
@@ -139,7 +139,7 @@ ___
 
 • `Readonly` **parent**: Window
 
-*Defined in [src/Child.ts:25](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L25)*
+*Defined in [src/Child.ts:25](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L25)*
 
 ___
 
@@ -147,7 +147,7 @@ ___
 
 • `Optional` **parentOrigin**: undefined \| string
 
-*Defined in [src/Child.ts:27](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L27)*
+*Defined in [src/Child.ts:27](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L27)*
 
 ___
 
@@ -322,7 +322,7 @@ ___
 
 ▸ `Private`**dispatcher**(`event`: MessageEvent): Promise\<void>
 
-*Defined in [src/Child.ts:46](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L46)*
+*Defined in [src/Child.ts:46](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L46)*
 
 #### Parameters:
 
@@ -386,7 +386,7 @@ ___
 
 ▸ **emitToParent**(`eventName`: string, `data`: unknown): void
 
-*Defined in [src/Child.ts:83](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L83)*
+*Defined in [src/Child.ts:83](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L83)*
 
 #### Parameters:
 
@@ -503,7 +503,7 @@ ___
 
 ▸ **handleGet**(`__namedParameters`: { args: any[] ; id: string ; property: string  }): Promise\<void>
 
-*Defined in [src/Child.ts:101](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L101)*
+*Defined in [src/Child.ts:101](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L101)*
 
 #### Parameters:
 
@@ -519,7 +519,7 @@ ___
 
 ▸ **handshake**(): Promise\<[ChildAPI](_child_.childapi.md)\<TModel, TContext>>
 
-*Defined in [src/Child.ts:92](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L92)*
+*Defined in [src/Child.ts:92](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L92)*
 
 **Returns:** Promise\<[ChildAPI](_child_.childapi.md)\<TModel, TContext>>
 
@@ -744,7 +744,7 @@ ___
 
 ▸ `Private`**setListeners**(): void
 
-*Defined in [src/Child.ts:40](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L40)*
+*Defined in [src/Child.ts:40](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L40)*
 
 **Returns:** void
 

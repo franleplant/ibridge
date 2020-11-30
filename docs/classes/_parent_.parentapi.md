@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["Parent"](../modules/_parent_.md) / ParentAPI
+> [Globals](../README.md) / ["Parent"](../modules/_parent_.md) / ParentAPI
 
 # Class: ParentAPI
 
@@ -93,7 +93,7 @@ Removes an event subscription.
 
 \+ **new ParentAPI**(`__namedParameters`: { classList: string[] = []; container: HTMLElement = document.body; name: string = ""; showIframe: boolean = false; url: string  }): [ParentAPI](_parent_.parentapi.md)
 
-*Defined in [src/Parent.ts:36](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L36)*
+*Defined in [src/Parent.ts:36](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L36)*
 
 #### Parameters:
 
@@ -109,7 +109,7 @@ Name | Type |
 
 • `Readonly` **child**: Window
 
-*Defined in [src/Parent.ts:28](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L28)*
+*Defined in [src/Parent.ts:28](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L28)*
 
 ___
 
@@ -117,7 +117,7 @@ ___
 
 •  **childOrigin**: string
 
-*Defined in [src/Parent.ts:30](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L30)*
+*Defined in [src/Parent.ts:30](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L30)*
 
 ___
 
@@ -125,7 +125,7 @@ ___
 
 • `Readonly` **container**: HTMLElement
 
-*Defined in [src/Parent.ts:31](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L31)*
+*Defined in [src/Parent.ts:31](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L31)*
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 • `Readonly` **frame**: HTMLIFrameElement
 
-*Defined in [src/Parent.ts:29](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L29)*
+*Defined in [src/Parent.ts:29](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L29)*
 
 ___
 
@@ -141,7 +141,7 @@ ___
 
 • `Readonly` **parent**: Window
 
-*Defined in [src/Parent.ts:27](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L27)*
+*Defined in [src/Parent.ts:27](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L27)*
 
 ___
 
@@ -149,7 +149,7 @@ ___
 
 • `Readonly` **url**: string
 
-*Defined in [src/Parent.ts:26](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L26)*
+*Defined in [src/Parent.ts:26](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L26)*
 
 ___
 
@@ -225,7 +225,7 @@ ___
 
 ▪ `Static` **maxHandshakeRequests**: number = 5
 
-*Defined in [src/Parent.ts:36](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L36)*
+*Defined in [src/Parent.ts:36](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L36)*
 
 The maximum number of attempts to send a handshake request to the parent
 
@@ -334,7 +334,7 @@ ___
 
 ▸ **destroy**(): void
 
-*Defined in [src/Parent.ts:151](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L151)*
+*Defined in [src/Parent.ts:151](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L151)*
 
 **Returns:** void
 
@@ -344,7 +344,7 @@ ___
 
 ▸ `Private`**dispatcher**(`event`: MessageEvent): void
 
-*Defined in [src/Parent.ts:70](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L70)*
+*Defined in [src/Parent.ts:70](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L70)*
 
 #### Parameters:
 
@@ -408,7 +408,7 @@ ___
 
 ▸ **emitToChild**(`eventName`: string, `data`: unknown): void
 
-*Defined in [src/Parent.ts:88](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L88)*
+*Defined in [src/Parent.ts:88](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L88)*
 
 #### Parameters:
 
@@ -525,7 +525,7 @@ ___
 
 ▸ **get**(`property`: string, ...`args`: Array\<any>): Promise\<any>
 
-*Defined in [src/Parent.ts:137](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L137)*
+*Defined in [src/Parent.ts:137](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L137)*
 
 #### Parameters:
 
@@ -542,7 +542,7 @@ ___
 
 ▸ **handshake**(): Promise\<[ParentAPI](_parent_.parentapi.md)>
 
-*Defined in [src/Parent.ts:94](https://github.com/franleplant/ibridge/blob/f2182af/src/Parent.ts#L94)*
+*Defined in [src/Parent.ts:94](https://github.com/franleplant/ibridge/blob/046b2f2/src/Parent.ts#L94)*
 
 **Returns:** Promise\<[ParentAPI](_parent_.parentapi.md)>
 

@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["Child"](../modules/_child_.md) / IConstructorArgs
+> [Globals](../README.md) / ["Child"](../modules/_child_.md) / IConstructorArgs
 
 # Interface: IConstructorArgs\<TModel, TContext>
 
@@ -28,7 +28,7 @@ Name |
 
 •  **context**: TContext
 
-*Defined in [src/Child.ts:20](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L20)*
+*Defined in [src/Child.ts:20](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L20)*
 
 ___
 
@@ -36,4 +36,4 @@ ___
 
 •  **model**: TModel
 
-*Defined in [src/Child.ts:19](https://github.com/franleplant/ibridge/blob/f2182af/src/Child.ts#L19)*
+*Defined in [src/Child.ts:19](https://github.com/franleplant/ibridge/blob/046b2f2/src/Child.ts#L19)*

@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / "events"
+> [Globals](../README.md) / "events"
 
 # Module: "events"
 
@@ -25,7 +25,7 @@
 
 ▸ **createChildEmit**(`eventName`: string, `data`: unknown): [IChildEmit](../interfaces/_events_.ichildemit.md)
 
-*Defined in [src/events.ts:39](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L39)*
+*Defined in [src/events.ts:39](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L39)*
 
 #### Parameters:
 
@@ -42,7 +42,7 @@ ___
 
 ▸ **createParentEmit**(`eventName`: string, `data`: unknown): [IParentEmit](../interfaces/_events_.iparentemit.md)
 
-*Defined in [src/events.ts:48](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L48)*
+*Defined in [src/events.ts:48](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L48)*
 
 #### Parameters:
 
@@ -59,7 +59,7 @@ ___
 
 ▸ **getResponse**(`id`: string): string
 
-*Defined in [src/events.ts:8](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L8)*
+*Defined in [src/events.ts:8](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L8)*
 
 #### Parameters:
 

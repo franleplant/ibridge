@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["events"](../modules/_events_.md) / IGetResponse
+> [Globals](../README.md) / ["events"](../modules/_events_.md) / IGetResponse
 
 # Interface: IGetResponse
 
@@ -23,7 +23,7 @@
 
 • `Optional` **error**: any
 
-*Defined in [src/events.ts:22](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L22)*
+*Defined in [src/events.ts:22](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L22)*
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 •  **id**: string
 
-*Defined in [src/events.ts:19](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L19)*
+*Defined in [src/events.ts:19](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L19)*
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 •  **property**: string
 
-*Defined in [src/events.ts:20](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L20)*
+*Defined in [src/events.ts:20](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L20)*
 
 ___
 
@@ -47,4 +47,4 @@ ___
 
 • `Optional` **value**: any
 
-*Defined in [src/events.ts:21](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L21)*
+*Defined in [src/events.ts:21](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L21)*

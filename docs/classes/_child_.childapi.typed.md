@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["Child"](../modules/_child_.md) / [ChildAPI](_child_.childapi.md) / Typed
+> [Globals](../README.md) / ["Child"](../modules/_child_.md) / [ChildAPI](_child_.childapi.md) / Typed
 
 # Class: Typed\<EventDataMap, EmptyEvents>
 

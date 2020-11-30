@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["Child"](../modules/_child_.md) / [ChildAPI](../classes/_child_.childapi.md) / ListenerChangedData
+> [Globals](../README.md) / ["Child"](../modules/_child_.md) / [ChildAPI](../classes/_child_.childapi.md) / ListenerChangedData
 
 # Interface: ListenerChangedData
 

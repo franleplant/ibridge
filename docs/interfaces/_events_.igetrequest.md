@@ -1,6 +1,6 @@
 **[ibridge](../README.md)**
 
-> [Globals](../globals.md) / ["events"](../modules/_events_.md) / IGetRequest
+> [Globals](../README.md) / ["events"](../modules/_events_.md) / IGetRequest
 
 # Interface: IGetRequest
 
@@ -22,7 +22,7 @@
 
 •  **args**: Array\<any>
 
-*Defined in [src/events.ts:15](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L15)*
+*Defined in [src/events.ts:15](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L15)*
 
 ___
 
@@ -30,7 +30,7 @@ ___
 
 •  **id**: string
 
-*Defined in [src/events.ts:13](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L13)*
+*Defined in [src/events.ts:13](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L13)*
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 •  **property**: string
 
-*Defined in [src/events.ts:14](https://github.com/franleplant/ibridge/blob/f2182af/src/events.ts#L14)*
+*Defined in [src/events.ts:14](https://github.com/franleplant/ibridge/blob/046b2f2/src/events.ts#L14)*
