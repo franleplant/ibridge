@@ -104,12 +104,12 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
 
     let value, error;
     try {
-    if (typeof fn !== "function") {
-      debug(
-        `the model ${property} was called, but it isn't a function, got ${fn}`
-      );
-      throw new Error('model function not found')
-    }
+      if (typeof fn !== "function") {
+        debug(
+          `the model ${property} was called, but it isn't a function, got ${fn}`
+        );
+        throw new Error("model function not found");
+      }
       value = await fn.call(this.context, ...args);
     } catch (err) {
       error = err;
