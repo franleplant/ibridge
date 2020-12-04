@@ -101,15 +101,15 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
   async handleGet({ id, property, args }: IGetRequest): Promise<void> {
     // property might be a full lodash path
     const fn = _get(this.model, property);
+
+    let value, error;
+    try {
     if (typeof fn !== "function") {
       debug(
         `the model ${property} was called, but it isn't a function, got ${fn}`
       );
-      return;
+      throw new Error('model function not found')
     }
-
-    let value, error;
-    try {
       value = await fn.call(this.context, ...args);
     } catch (err) {
       error = err;
