@@ -172,7 +172,7 @@ TLDR: you can define an allowlist of domains that can use your page inside an if
 Your page should set the following HTTP header:
 
 ```
-Content-Security-Policy: frame-ancestors 'self' www.parent.com *.otherparent.com;
+Content-Security-Policy: frame-ancestors 'self' www.parent.com *.otherparent.com http://localhost:* ;
 ```
 
 If you want to allow any domain then don't set this header.
