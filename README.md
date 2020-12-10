@@ -14,7 +14,7 @@
 </p>
 
 
-![how ibridge works](./assets/ibrige.svg)
+![how ibridge works](./assets/ibridge.svg)
 
 ## Quick start
 
