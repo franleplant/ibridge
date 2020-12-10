@@ -14,6 +14,8 @@
 </p>
 
 
+![how ibridge works](./assets/ibrige.svg)
+
 ## Quick start
 
 For this library to work you need to use it both from the parent document and from the child document.
