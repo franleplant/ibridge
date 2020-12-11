@@ -181,6 +181,9 @@ If you want to allow any domain then don't set this header.
 
 If your page won't be hosted inside an iframe you want to set this up to `'none'` for extra protection.
 
+## Logo license
+
+The log is part of [twitter emoji](https://twemoji.twitter.com/).
 
 ## License: MIT
 

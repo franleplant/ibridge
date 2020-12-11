@@ -6,7 +6,7 @@
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/franleplant/ibridge",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=12.0.0"
   },
   "scripts": {
     "prepublish": "npm run build",
@@ -51,6 +51,7 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
+    "@scarf/scarf": "^1.1.0",
     "debug": "^4.3.1",
     "emittery": "^0.7.2",
     "lodash.get": "^4.4.2",
