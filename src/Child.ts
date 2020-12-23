@@ -80,7 +80,7 @@ export default class ChildAPI<TModel, TContext = any> extends Emittery {
     }
   }
 
-  emitToParent(eventName: string, data: unknown): void {
+  emitToParent(eventName: string, data?: unknown): void {
     debug(`emitToParent "%s" with data %O`, eventName, data);
 
     this.parent.postMessage(
