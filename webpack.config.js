@@ -35,12 +35,12 @@ const jsRules = {
  * This is what external users will consume and use.
  *
  */
-module.exports = {
+module.exports = ["development", "production"].map((env) => ({
   entry: "./src/index.ts",
-  mode: "development",
+  mode: env,
   devtool: "source-map",
   output: {
-    filename: "index.js",
+    filename: `index.${env}.js`,
     path: path.resolve(__dirname, "dist"),
     library: "ibridge",
     libraryTarget: "umd",
@@ -52,4 +52,4 @@ module.exports = {
   module: {
     rules: [jsRules, fileRules],
   },
-};
+}));
