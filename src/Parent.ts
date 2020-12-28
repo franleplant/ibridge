@@ -14,12 +14,24 @@ import {
 
 const debug = debugFactory("ibridge:parent");
 
-interface IConstructorArgs {
+interface IConstructorByUrlArgs {
   container?: HTMLElement;
   url: string;
   name?: string;
   classList?: Array<string>;
   showIframe?: boolean;
+}
+
+interface IConstructorByElementArgs {
+  target: string | HTMLIFrameElement;
+}
+
+type IConstructorArgs = IConstructorByUrlArgs | IConstructorByElementArgs;
+
+function isIConstructorByUrlArgs(
+  arg: IConstructorArgs
+): arg is IConstructorByUrlArgs {
+  return "url" in arg;
 }
 
 export default class ParentAPI extends Emittery {
@@ -28,40 +40,50 @@ export default class ParentAPI extends Emittery {
   public readonly child: Window;
   public readonly frame: HTMLIFrameElement;
   public childOrigin: string;
-  public readonly container: HTMLElement;
+  public readonly container?: HTMLElement;
 
   /**
    * The maximum number of attempts to send a handshake request to the parent
    */
   static maxHandshakeRequests = 5;
 
-  constructor({
-    container = document.body,
-    url,
-    name = "",
-    classList = [],
-    showIframe = false,
-  }: IConstructorArgs) {
+  constructor(arg: IConstructorArgs) {
     super();
-    this.url = url;
-    this.container = container;
     this.parent = window;
-    this.frame = document.createElement("iframe");
-    this.frame.name = name;
-    this.frame.classList.add(...classList);
-    if (!showIframe) {
-      // Make it invisible
-      this.frame.style.width = "0";
-      this.frame.style.height = "0";
-      this.frame.style.border = "0";
+    if (isIConstructorByUrlArgs(arg)) {
+      const {
+        container = document.body,
+        url,
+        name = "",
+        classList = [],
+        showIframe = false,
+      } = arg;
+      this.url = url;
+      this.container = container;
+      this.frame = document.createElement("iframe");
+      this.frame.name = name;
+      this.frame.classList.add(...classList);
+      if (!showIframe) {
+        // Make it invisible
+        this.frame.style.width = "0";
+        this.frame.style.height = "0";
+        this.frame.style.border = "0";
+      }
+      debug("Loading frame %s", url);
+      this.container.appendChild(this.frame);
+    } else {
+      if (typeof arg.target === "string") {
+        const frame = document.querySelector<HTMLIFrameElement>(arg.target);
+        if (!frame) throw new Error(`Not existing iframe of ${arg.target}`);
+        this.frame = frame;
+      } else this.frame = arg.target;
+      this.url = this.frame.src;
     }
-    debug("Loading frame %s", url);
-    this.container.appendChild(this.frame);
 
     this.child =
       this.frame.contentWindow ||
       (this.frame.contentDocument as any)?.parentWindow;
-    this.childOrigin = resolveOrigin(url);
+    this.childOrigin = resolveOrigin(this.url);
 
     debug("setting up main listeners");
     this.parent.addEventListener("message", this.dispatcher.bind(this), false);
