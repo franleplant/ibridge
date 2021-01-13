@@ -12,7 +12,7 @@ export interface IChannel {
   onMsg: (listener: MessageListener) => ListenerRemover;
 }
 
-interface IIframeOpts {
+export interface IIframeOpts {
   url: string;
   container?: HTMLElement;
   show?: boolean;
@@ -35,9 +35,10 @@ export class WindowChannel implements IChannel {
       iframe.style.border = "0";
     }
 
+    const remoteWindowPromise = getRemoteWindow(iframe)
     iframe.src = args.url;
     container.appendChild(iframe);
-    const remoteWindow = await getRemoteWindow(iframe);
+    const remoteWindow = await remoteWindowPromise;
 
     return new WindowChannel({
       localWindow: window,
@@ -56,7 +57,7 @@ export class WindowChannel implements IChannel {
     remoteWindow,
     remoteOrigin,
   }: {
-    localWindow: Window;
+    localWindow?: Window;
     remoteWindow: Window;
     remoteOrigin: string;
   }) {
@@ -85,6 +86,7 @@ export class WindowChannel implements IChannel {
     return removeListener;
   }
 
+  // TODO debug
   isValid(event: MessageEvent<INativeEventData>): boolean {
     const { source, origin } = event;
 
@@ -92,7 +94,7 @@ export class WindowChannel implements IChannel {
       () => source === this.remoteWindow,
       () => this.remoteOrigin === "*" || origin === this.remoteOrigin,
       () => !!event.data,
-      () => event?.data?.type !== IBRIDGE_MARKER,
+      () => event?.data?.type === IBRIDGE_MARKER,
     ];
 
     return validators.every((validator) => validator());

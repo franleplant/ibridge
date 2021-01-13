@@ -14,22 +14,22 @@ import {
 import { INativeEventData, createNativeEventData } from "./msg/native";
 
 export interface IConstructorArgs<TModel, TContext = undefined> {
-  com: IChannel;
-  model: TModel;
-  context: TContext;
+  channel: IChannel;
+  model?: TModel;
+  context?: TContext;
 }
 
 export default class Bridge<TModel, TContext = undefined> extends Emittery {
   channel: IChannel;
-  model: TModel;
-  context: TContext;
-  sessionId: string;
+  model?: TModel;
+  context?: TContext;
+  sessionId?: string;
   debug: debugFactory.Debugger;
 
   constructor(args: IConstructorArgs<TModel, TContext>) {
     super();
 
-    this.channel = args.com;
+    this.channel = args.channel;
     this.model = args.model;
     this.context = args.context;
     this.sessionId = uuid();
@@ -42,7 +42,10 @@ export default class Bridge<TModel, TContext = undefined> extends Emittery {
   private dispatcher(event: MessageEvent<INativeEventData>): void {
     this.debug(`dispatcher got native event %O`, event);
     const { eventName, data, sessionId } = event.data;
-    if (sessionId !== this.sessionId) {
+    // Allow for session id to be null so that classes that 
+    // extend Bridge can add logic on top of it, like setting
+    // the sessionId on the first handshake request
+    if (this.sessionId && sessionId !== this.sessionId) {
       return;
     }
     this.debug(
@@ -59,12 +62,6 @@ export default class Bridge<TModel, TContext = undefined> extends Emittery {
   // and even the lib consumers should use emitToRemote
   private emitToLocal(eventName: string, data?: unknown): void {
     super.emit(eventName, data);
-  }
-
-  async emit(eventName: string, data?: unknown): Promise<void> {
-    console.warn(
-      "this function is private and has now effect, you should probably want to use emitToRemote"
-    );
   }
 
   emitToRemote(eventName: string, data?: unknown): void {

@@ -9,7 +9,7 @@ export interface INativeEventData<T = unknown> {
   /* simple ibridge marker for all ibridge events */
   type: typeof IBRIDGE_MARKER;
   /* id for the connection between a given pair of bridges */
-  sessionId: string;
+  sessionId: string | undefined;
 
   /* the inner higher level emittery event name */
   eventName: string;
@@ -18,7 +18,7 @@ export interface INativeEventData<T = unknown> {
 }
 
 export function createNativeEventData<T = unknown>(
-  sessionId: string,
+  sessionId: string | undefined,
   eventName: string,
   data: T
 ): INativeEventData<T> {

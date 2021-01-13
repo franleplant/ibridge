@@ -25,7 +25,7 @@
             },
           };
 
-          const ichild = new ibridge.Child(model, context);
+          const ichild = ibridge.Child.fromWindow(model, context);
           await ichild.handshake();
         } catch (err) {
           console.error(err);

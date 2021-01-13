@@ -1,5 +1,5 @@
 import { JSDOM } from "jsdom";
-import iBridge from "./index";
+import ibridge from "./index";
 
 jest.mock("./isValidEvent");
 
@@ -22,26 +22,17 @@ test("integration", async () => {
     },
   };
 
-  const parent = new iBridge.Parent({ url: "about:blank" });
-  // this should never be used in prod
-  (parent as any).childOrigin = "*";
-  // Hook the parent with the fake childWindow
-  (parent as any).child = childWindow;
+  const parentChannel = new ibridge.WindowChannel({ localWindow: parentWindow, remoteWindow: childWindow, remoteOrigin: "*" })
+  const parent = new ibridge.Parent({channel: parentChannel});
 
-  const parentWindow = window;
+  const childChannel = new ibridge.WindowChannel({localWindow: childWindow, remoteWindow: parentWindow, remoteOrigin: "*"})
+  const child = new ibridge.Parent({channel: childChannel, model, context});
 
-  const child = new iBridge.Child(model, context);
-  // this should never be used in prod
-  (child as any).parentOrigin = "*";
-  // Hook the child with the fake parent and child windows
-  (child as any).parent = parentWindow;
-  (child as any).child = childWindow;
-  (child as any).setListeners();
 
   await Promise.all([child.handshake(), parent.handshake()]);
 
   const userId = 123;
-  const value = await parent.get("users.getUser", userId);
+  const value = await parent.call("users.getUser", userId);
   expect(value).toEqual({
     userId,
     fake: true,
