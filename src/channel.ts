@@ -1,3 +1,5 @@
+import { INativeEventData, IBRIDGE_MARKER } from "./msg/native";
+
 export type MessageListener = (event: MessageEvent) => void;
 export type ListenerRemover = () => void;
 
@@ -49,18 +51,17 @@ export class WindowCom implements IChannel {
     return removeListener;
   }
 
-  isValid(event: MessageEvent): boolean {
+  isValid(event: MessageEvent<INativeEventData>): boolean {
     const { source, origin } = event;
 
-    if (source !== this.remoteWindow) {
-      return false;
-    }
+    const validators = [
+      () => source === this.remoteWindow,
+      () => this.remoteOrigin === "*" || origin === this.remoteOrigin,
+      () => !!event.data,
+      () => event?.data?.type !== IBRIDGE_MARKER,
+    ];
 
-    if (this.remoteOrigin !== "*" && origin !== this.remoteOrigin) {
-      return false;
-    }
-
-    return true;
+    return validators.every((validator) => validator());
   }
 }
 
