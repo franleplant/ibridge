@@ -42,7 +42,7 @@ export default class Bridge<TModel, TContext = undefined> extends Emittery {
   private dispatcher(event: MessageEvent<INativeEventData>): void {
     this.debug(`dispatcher got native event %O`, event);
     const { eventName, data, sessionId } = event.data;
-    // Allow for session id to be null so that classes that 
+    // Allow for session id to be null so that classes that
     // extend Bridge can add logic on top of it, like setting
     // the sessionId on the first handshake request
     if (this.sessionId && sessionId !== this.sessionId) {

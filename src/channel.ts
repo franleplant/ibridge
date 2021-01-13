@@ -35,7 +35,7 @@ export class WindowChannel implements IChannel {
       iframe.style.border = "0";
     }
 
-    const remoteWindowPromise = getRemoteWindow(iframe)
+    const remoteWindowPromise = getRemoteWindow(iframe);
     iframe.src = args.url;
     container.appendChild(iframe);
     const remoteWindow = await remoteWindowPromise;

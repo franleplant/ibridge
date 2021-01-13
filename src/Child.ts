@@ -2,30 +2,34 @@ import debugFactory from "debug";
 import { HANDSHAKE_REQUEST, HANDSHAKE_RESPONSE } from "./msg/handshake";
 
 import Bridge, { IConstructorArgs } from "./Bridge";
-import {WindowChannel} from './channel'
+import { WindowChannel } from "./channel";
 
 export default class ChildAPI<TModel, TContext = undefined> extends Bridge<
   TModel,
   TContext
 > {
+  static fromWindow<TModel, TContext = undefined>(
+    model: TModel,
+    context?: TContext
+  ): ChildAPI<TModel, TContext> {
+    const channel = new WindowChannel({
+      remoteWindow: window.parent,
+      remoteOrigin: "*",
+    });
 
-  static fromWindow<TModel, TContext = undefined>(model: TModel, context?: TContext): ChildAPI<TModel, TContext> {
-    const channel = new WindowChannel({remoteWindow: window.parent, remoteOrigin: "*"})
-
-
-    return new ChildAPI({channel, model, context})
+    return new ChildAPI({ channel, model, context });
   }
 
   constructor(args: IConstructorArgs<TModel, TContext>) {
     super(args);
 
     this.debug = debugFactory(`ibridge:child-{without-session}`);
-    this.sessionId = undefined
+    this.sessionId = undefined;
   }
 
   async handshake(): Promise<ChildAPI<TModel, TContext>> {
-    const {sessionId } = await this.once(HANDSHAKE_REQUEST) as any;
-    this.sessionId = sessionId
+    const { sessionId } = (await this.once(HANDSHAKE_REQUEST)) as any;
+    this.sessionId = sessionId;
     this.debug = debugFactory(`ibridge:child-${this.sessionId}`);
     this.debug("received handshake from Parent");
     this.debug("sending handshake reply to Parent");
