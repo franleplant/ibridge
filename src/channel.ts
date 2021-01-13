@@ -12,7 +12,7 @@ export interface IChannel {
 }
 
 // TODO jsdocs
-export class WindowCom implements IChannel {
+export class WindowChannel implements IChannel {
   localWindow: Window = window;
   remoteWindow: Window;
   remoteOrigin: string;
@@ -66,7 +66,7 @@ export class WindowCom implements IChannel {
 }
 
 // TODO jsdocs
-export class WorkerCom implements IChannel {
+export class WorkerChannel implements IChannel {
   worker: Worker | DedicatedWorkerGlobalScope;
 
   constructor(worker: Worker | DedicatedWorkerGlobalScope) {
