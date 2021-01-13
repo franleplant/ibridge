@@ -10,7 +10,7 @@ export default class ChildAPI<TModel, TContext = undefined> extends Bridge<
   constructor(args: IConstructorArgs<TModel, TContext>) {
     super(args);
 
-    this.debug = debugFactory(`ibridge:child-${this.sessionId}`)
+    this.debug = debugFactory(`ibridge:child-${this.sessionId}`);
   }
 
   async handshake(): Promise<ChildAPI<TModel, TContext>> {
