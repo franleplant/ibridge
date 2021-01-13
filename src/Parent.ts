@@ -1,49 +1,42 @@
 import debugFactory from "debug";
-import { HANDHSAKE_START, HANDSHAKE_REPLY } from "./constants";
+import { HANDSHAKE_REQUEST, HANDSHAKE_RESPONSE } from "./msg/handshake";
 import Bridge, { IConstructorArgs } from "./Bridge";
 
-const debug = debugFactory("ibridge:parent");
-
-// Since all the communication capabilities are inside of the Bridge class
-// this Parent class now only needs to deal with the handshake.
-// In fact, consumers that might not care about a handshake might use
-// Bridge directly, or perhaps they want to build their own handshake logic
-// with the communication primitives that Bridge already provides.
-//
-// TODO perhaps this can be renamed to something else?
-// THe main purpose of calling it Parent or Server is that
-// this is the thing that "initializes" the handshake process.
-export default class ParentAPI extends Bridge {
+export default class ParentAPI<TModel, TContext = undefined> extends Bridge<
+  TModel,
+  TContext
+> {
   /**
    * The maximum number of attempts to send a handshake request to the parent
    */
   static maxHandshakeRequests = 5;
 
-  constructor(args: IConstructorArgs) {
+  constructor(args: IConstructorArgs<TModel, TContext>) {
     super(args);
+
+    this.debug = debugFactory(`ibridge:child-${this.sessionId}`)
   }
 
-  async handshake(): Promise<ParentAPI> {
-    debug("starting handshake");
+  async handshake(): Promise<ParentAPI<TModel, TContext>> {
+    this.debug("starting handshake");
     let attempt = 0;
 
     const tryHandshake = async () => {
       while (attempt < ParentAPI.maxHandshakeRequests) {
         attempt++;
-        debug(`handshake attempt %s %s`, attempt, this.remoteOrigin);
-        // TODO rename these events
-        this.emitToRemote(HANDHSAKE_START);
+        this.debug(`handshake attempt %s %s`, attempt, this.channel);
+        this.emitToRemote(HANDSHAKE_REQUEST);
 
         try {
-          await Promise.race([this.once(HANDSHAKE_REPLY), timeout(500)]);
+          await Promise.race([this.once(HANDSHAKE_RESPONSE), timeout(500)]);
         } catch (err) {
           // this should only happen if the timeout is reached, try again
           continue;
         }
 
-        debug("Received handshake reply from Child");
+        this.debug("Received handshake reply from Child");
         // Clean up any outstanding handhsake reply "once" listeners
-        this.clearListeners(HANDSHAKE_REPLY);
+        this.clearListeners(HANDSHAKE_REQUEST);
         return;
       }
 
@@ -51,7 +44,7 @@ export default class ParentAPI extends Bridge {
     };
 
     await tryHandshake();
-    debug("handshake ok");
+    this.debug("handshake ok");
     return this;
   }
 }

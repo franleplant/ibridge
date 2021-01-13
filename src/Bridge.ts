@@ -2,7 +2,7 @@ import Emittery from "emittery";
 import debugFactory from "debug";
 import _get from "lodash.get";
 import { v4 as uuid } from "uuid";
-import { IMessenger } from "./messenger";
+import { IChannel } from "./channel";
 import {
   CALL_REQUEST,
   ICallRequest,
@@ -13,48 +13,43 @@ import {
 } from "./msg/call";
 import { INativeEventData, createNativeEventData } from "./msg/native";
 
-import { getResponse, IGetRequest, IGetResponse, IParentEmit } from "./events";
-const debug = debugFactory("ibridge:parent");
-
 export interface IConstructorArgs<TModel, TContext = undefined> {
+  com: IChannel;
   model: TModel;
   context: TContext;
-  window: Window; // TODO others
-  // The window needs to be fully loaded
-  // i.e. the iframe has triggered the onLoad event
-  remoteWindow: Window; // TODO  others
-  remoteOrigin?: string;
 }
 
 export default class Bridge<TModel, TContext = undefined> extends Emittery {
-  window: Window;
-  remoteWindow: Window;
-  remoteOrigin?: string;
+  channel: IChannel;
   model: TModel;
   context: TContext;
-  private sessionId: string;
+  sessionId: string;
+  debug: debugFactory.Debugger;
 
   constructor(args: IConstructorArgs<TModel, TContext>) {
     super();
 
-    this.window = args.window;
-    this.remoteWindow = args.remoteWindow;
-    this.remoteOrigin = args.remoteOrigin;
+    this.channel = args.com;
     this.model = args.model;
-    this.context = args.context
+    this.context = args.context;
     this.sessionId = uuid();
+    this.debug = debugFactory(`ibridge:${this.sessionId}`);
 
-    this.remoteWindow.onmessage = this.dispatcher.bind(this);
+    this.channel.onMsg(this.dispatcher.bind(this));
     this.on(CALL_REQUEST, this.handleCall.bind(this) as any);
   }
 
   private dispatcher(event: MessageEvent<INativeEventData>): void {
-    debug(`dispatcher got native event %O`, event);
+    this.debug(`dispatcher got native event %O`, event);
     const { eventName, data, sessionId } = event.data;
     if (sessionId !== this.sessionId) {
       return;
     }
-    debug(`dispatcher got ibridge event "%s" with data %O`, eventName, data);
+    this.debug(
+      `dispatcher got ibridge event "%s" with data %O`,
+      eventName,
+      data
+    );
     this.emitToLocal(eventName, data);
   }
 
@@ -73,12 +68,10 @@ export default class Bridge<TModel, TContext = undefined> extends Emittery {
   }
 
   emitToRemote(eventName: string, data?: unknown): void {
-    debug(`emit "%s" with data %O`, eventName, data);
+    this.debug(`emit "%s" with data %O`, eventName, data);
 
-    // TODO make this use webworker.postMessage
-    this.remoteWindow.postMessage(
-      createParentEmit(eventName, data),
-      this.remoteOrigin!
+    this.channel.emitMsg(
+      createNativeEventData(this.sessionId, eventName, data)
     );
   }
 
@@ -87,7 +80,7 @@ export default class Bridge<TModel, TContext = undefined> extends Emittery {
 
     this.emitToRemote(...createCallRequest({ callId, property, args }));
     const eventName = createCallResponseEventName(callId);
-    debug("call await for response event %s", eventName);
+    this.debug("call await for response event %s", eventName);
     const { value, error } = (await this.once(eventName)) as ICallResponse<any>;
     if (error) {
       throw error;
@@ -106,7 +99,7 @@ export default class Bridge<TModel, TContext = undefined> extends Emittery {
     let value, error;
     try {
       if (typeof fn !== "function") {
-        debug(
+        this.debug(
           `the model ${property} was called, but it isn't a function, got ${fn}`
         );
         throw new Error("model function not found");
