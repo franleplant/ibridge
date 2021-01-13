@@ -1,12 +1,7 @@
 import { JSDOM } from "jsdom";
 import iBridge from "./index";
-import isValidEvent from "./isValidEvent";
 
 jest.mock("./isValidEvent");
-
-// do not check for origin mismatch since we are doing
-// crazy testing faking
-(isValidEvent as jest.Mock).mockImplementation(() => true);
 
 // Create a fake second window to
 // represent the child window

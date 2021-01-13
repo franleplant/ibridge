@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "lib": ["esnext", "dom"],
+    "lib": ["esnext", "dom", "WebWorker"],
     "module": "commonjs",
     "target": "es2015",
     "declaration": true,
