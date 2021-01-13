@@ -1,4 +1,5 @@
 import { INativeEventData, IBRIDGE_MARKER } from "./msg/native";
+import { getRemoteWindow } from "./iframe";
 
 export type MessageListener = (event: MessageEvent) => void;
 export type ListenerRemover = () => void;
@@ -11,8 +12,41 @@ export interface IChannel {
   onMsg: (listener: MessageListener) => ListenerRemover;
 }
 
-// TODO jsdocs
+interface IIframeOpts {
+  url: string;
+  container?: HTMLElement;
+  show?: boolean;
+}
+
+/**
+ * A Window Channel for communication across windows
+ * i.e. through iframes.
+ *
+ * Make sure both window have already triggered the `onLoad` event,
+ * otherwise ibridge wont work
+ */
 export class WindowChannel implements IChannel {
+  static async createIframe(args: IIframeOpts): Promise<WindowChannel> {
+    const { container = document.body } = args;
+    const iframe = document.createElement("iframe");
+    if (!args.show) {
+      iframe.style.width = "0";
+      iframe.style.height = "0";
+      iframe.style.border = "0";
+    }
+
+    iframe.src = args.url;
+    container.appendChild(iframe);
+    const remoteWindow = await getRemoteWindow(iframe);
+
+    return new WindowChannel({
+      localWindow: window,
+      remoteWindow,
+      // TODO
+      remoteOrigin: "*",
+    });
+  }
+
   localWindow: Window = window;
   remoteWindow: Window;
   remoteOrigin: string;
