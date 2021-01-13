@@ -19,7 +19,7 @@ test("integration", async () => {
   // Create a fake second window to
   // represent the child window
   const childDOM = new JSDOM();
-  const childWindow = { ...childDOM.window, parent: parentWindow };
+  const childWindow = childDOM.window
 
   const parentChannel = new ibridge.WindowChannel({
     localWindow: parentWindow,
@@ -33,7 +33,7 @@ test("integration", async () => {
     remoteWindow: parentWindow,
     remoteOrigin: "*",
   });
-  const ichild = new ibridge.Parent({ channel: childChannel, model, context });
+  const ichild = new ibridge.Child({ channel: childChannel, model, context });
 
   await Promise.all([ichild.handshake(), iparent.handshake()]);
 
