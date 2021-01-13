@@ -1,8 +1,5 @@
 import debugFactory from "debug";
-import {
-  HANDHSAKE_START,
-  HANDSHAKE_REPLY,
-} from "./constants";
+import { HANDHSAKE_START, HANDSHAKE_REPLY } from "./constants";
 import Bridge, { IConstructorArgs } from "./Bridge";
 
 const debug = debugFactory("ibridge:parent");
@@ -13,8 +10,8 @@ const debug = debugFactory("ibridge:parent");
 // Bridge directly, or perhaps they want to build their own handshake logic
 // with the communication primitives that Bridge already provides.
 //
-// TODO perhaps this can be renamed to something else? 
-// THe main purpose of calling it Parent or Server is that 
+// TODO perhaps this can be renamed to something else?
+// THe main purpose of calling it Parent or Server is that
 // this is the thing that "initializes" the handshake process.
 export default class ParentAPI extends Bridge {
   /**
