@@ -1,7 +1,7 @@
 import debugFactory from "debug";
 import { INativeEventData, IBRIDGE_MARKER } from "./msg/native";
 import { getRemoteWindow } from "./iframe";
-import {getOrigin} from "./url";
+import { getOrigin } from "./url";
 
 export type MessageListener = (event: MessageEvent) => void;
 export type ListenerRemover = () => void;
@@ -50,7 +50,7 @@ export class WindowChannel implements IChannel {
     });
   }
 
-  debug: debugFactory.Debugger = debugFactory('ibridge:WindowChannel')
+  debug: debugFactory.Debugger = debugFactory("ibridge:WindowChannel");
   localWindow: Window = window;
   remoteWindow: Window;
   remoteOrigin: string;
@@ -70,7 +70,7 @@ export class WindowChannel implements IChannel {
   }
 
   setDebugPrefix(prefix: string) {
-    this.debug = debugFactory(`ibridge:WindowChannel-${prefix}`)
+    this.debug = debugFactory(`ibridge:WindowChannel-${prefix}`);
   }
 
   emitMsg(message: any): void {
@@ -104,22 +104,22 @@ export class WindowChannel implements IChannel {
     ];
 
     const isValid = validators.every((validator) => validator());
-    this.debug('isValid: %s event: %o', isValid, event)
-    return isValid
+    this.debug("isValid: %s event: %o", isValid, event);
+    return isValid;
   }
 }
 
 // TODO jsdocs
 export class WorkerChannel implements IChannel {
   worker: Worker | DedicatedWorkerGlobalScope;
-  debug: debugFactory.Debugger = debugFactory('ibridge:WorkerChannel')
+  debug: debugFactory.Debugger = debugFactory("ibridge:WorkerChannel");
 
   constructor(worker: Worker | DedicatedWorkerGlobalScope) {
     this.worker = worker;
   }
 
   setDebugPrefix(prefix: string) {
-    this.debug = debugFactory(`ibridge:WorkerChannel-${prefix}`)
+    this.debug = debugFactory(`ibridge:WorkerChannel-${prefix}`);
   }
 
   emitMsg(message: any): void {

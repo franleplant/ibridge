@@ -34,7 +34,7 @@ export default class Bridge<TModel, TContext = undefined> extends Emittery {
     this.context = args.context;
     this.sessionId = uuid();
     this.debug = debugFactory(`ibridge:${this.sessionId}`);
-    this.channel.setDebugPrefix(this.sessionId)
+    this.channel.setDebugPrefix(this.sessionId);
 
     this.channel.onMsg(this.dispatcher.bind(this));
     this.on(CALL_REQUEST, this.handleCall.bind(this) as any);
