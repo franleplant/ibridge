@@ -10,13 +10,13 @@
 
 
 <p align="center">
-  A tiny, promise based, type safe library for easy, bidirectional and secure iframe communication. 
+  A tiny, promise based, type safe library for easy, bidirectional and secure window communication, with out of the box support for iframes and web workers.
 </p>
 
 
 ![how ibridge works](./assets/ibridge.svg)
 
-## Quick start
+## Quick Start: iframes
 
 For this library to work you need to use it both from the parent document and from the child document.
 
@@ -49,8 +49,8 @@ const model = {
   },
 };
 
-// Instantiate the child
-const ichild = new ibridge.Child(model, context);
+// Instantiate the child from the window object
+const ichild = ibridge.Child.fromWindow(model, context);
 // await for ibridge handshake with the parent
 await ichild.handshake();
 
@@ -60,10 +60,10 @@ await ichild.handshake();
 ### In the parent page
 
 ```typescript
-// instantiate the parent, this will create an iframe
-// element and inject it into the dom (configurable).
-const iparent = new ibridge.Parent({
-  url: "http://www.child.com"
+// instantiate the Parent and also create an iframe,
+// if you need to create the iframe yourself that's alos accepted
+const iparent = await ibridge.Parent.createIframe({
+  url: "http://localhost:8080/examples/child.html",
 });
 
 // await for ibridge handshake with the child
@@ -83,6 +83,68 @@ try {
   // => "fake error"
 }
 ```
+
+### Create your own iframe
+
+
+```typescript
+
+const iframe = document.createElement("iframe");
+// this helper function waits for the iframe to "load"
+// and returns a reference to the iframe's window
+const remoteWindowPromise = ibridge.getRemoteWindow(iframe);
+iframe.src = url;
+container.appendChild(iframe);
+const remoteWindow = await remoteWindowPromise;
+const channel = new WindowChannel({
+  localWindow: window,
+  remoteWindow,
+  // use helper or you can calculate yourself
+  // or force it to "*"
+  remoteOrigin: ibridge.getOrigin(url),
+});
+
+const iparent = new ibrige.Parent({channel})
+```
+
+### Use an existing iframe
+
+```typescript
+// ensure your iframe has triggered the "load" event,
+// either by onload or by checking document.readyState === "complete"
+const remoteWindow = document.querySelector('#my-iframe').contentWindow
+
+
+const channel = new WindowChannel({
+  localWindow: window,
+  remoteWindow,
+  // use helper or you can calculate yourself
+  // or force it to "*"
+  remoteOrigin: ibridge.getOrigin(url),
+});
+const iparent = new ibrige.Parent({channel})
+```
+
+## Guide: any other window like object
+
+This library can work with any window like object such
+as native popups/modals and webworkers.
+
+The way you hook everything up is by creating 
+a class or an object that `implement ibridge.IChannel`,
+check the `WindowChannel` and the `WorkerChannel` for examples.
+
+Latter you will create `Bridge` instances on each _side_ of the communication
+bridge and be done with it. `Parent` and `Child` are typically used for iframes
+and they include a handshake out of the box, you can also use that with webworkers and
+modals or you can even roll up your own thanks to the high level interface that `ibridge`
+provides.
+
+
+## Guide: WebWorkers
+
+TODO
+
 
 ## 🐛 Debugging
 
@@ -118,24 +180,27 @@ don't worry, you don't need to devolve back to the lower level api of `postMessa
 `ibridge` has you covered:
 
 ```typescript
-// Send events to the child
-iparent.emitToChild("ping", {value: "i am father"})
+// Send events to the remote such as an iframe
+bridge.emitToRemote("ping", {value: "i am father"})
 
-// listen to events from the child
-iparent.on("pong", msg => console.log(msg))
+// listen to events from the remote such as an iframe
+bridge.on("pong", msg => console.log(msg))
 ```
 
 ```typescript
-// listen to events from the parent
-ichild.on("ping", msg => {
-  // send message to the parent
-  ichild.emitToParent("pong", {value: "i am child"})
+// listen to events from the remote (i.e. the parent window)
+bridge.on("ping", msg => {
+  // send message to the remote
+  bridge.emitToRemote("pong", {value: "i am child"})
 })
 ```
 
+**IMPORTANT** `Bridge` is the base class, `Parent` and `Child` extend it.
 
-Besides the special `emitToParent` and `emitToChild` both
-`parent` and `child` are event emitters that extend the [Emittery](https://www.npmjs.com/package/emittery),
+
+
+Besides the special `emitToRemote`, `Bridge` and therefore `Parent` and `Child`
+are event emitters that extend the [Emittery](https://www.npmjs.com/package/emittery),
 which means you have much more versatility while building complex
 event flows between parent and children i.e. `once`, `off`, `onAny`, etc.
 are all supported, check `Emittery` docs for more information.

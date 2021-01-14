@@ -5,13 +5,13 @@
       localStorage.debug = "*";
       (async () => {
         try {
-          const iparent = new ibridge.Parent({
+          const iparent = await ibridge.Parent.createIframe({
             url: "http://localhost:8080/examples/child.html",
           });
           await iparent.handshake();
-          const value = await iparent.get("vehicles.getCar", 123);
+          const value = await iparent.call("vehicles.getCar", 123);
 
-          const error = await iparent.get("getError").catch((err) => err);
+          const error = await iparent.call("getError").catch((err) => err);
         } catch (err) {
           console.error(err);
         }

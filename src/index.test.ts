@@ -1,17 +1,5 @@
 import { JSDOM } from "jsdom";
-import iBridge from "./index";
-import isValidEvent from "./isValidEvent";
-
-jest.mock("./isValidEvent");
-
-// do not check for origin mismatch since we are doing
-// crazy testing faking
-(isValidEvent as jest.Mock).mockImplementation(() => true);
-
-// Create a fake second window to
-// represent the child window
-const child = new JSDOM();
-const childWindow = child.window;
+import ibridge from "./index";
 
 test("integration", async () => {
   const context = { ctxValue: "im a context" };
@@ -27,26 +15,32 @@ test("integration", async () => {
     },
   };
 
-  const parent = new iBridge.Parent({ url: "about:blank" });
-  // this should never be used in prod
-  (parent as any).childOrigin = "*";
-  // Hook the parent with the fake childWindow
-  (parent as any).child = childWindow;
-
   const parentWindow = window;
+  // Create a fake second window to
+  // represent the child window
+  const childDOM = new JSDOM();
+  const childWindow = childDOM.window;
 
-  const child = new iBridge.Child(model, context);
-  // this should never be used in prod
-  (child as any).parentOrigin = "*";
-  // Hook the child with the fake parent and child windows
-  (child as any).parent = parentWindow;
-  (child as any).child = childWindow;
-  (child as any).setListeners();
+  const parentChannel = new ibridge.WindowChannel({
+    localWindow: parentWindow,
+    remoteWindow: childWindow as any,
+    remoteOrigin: "*",
+  });
+  parentChannel.isValid = () => true;
+  const iparent = new ibridge.Parent({ channel: parentChannel });
 
-  await Promise.all([child.handshake(), parent.handshake()]);
+  const childChannel = new ibridge.WindowChannel({
+    localWindow: childWindow as any,
+    remoteWindow: parentWindow,
+    remoteOrigin: "*",
+  });
+  childChannel.isValid = () => true;
+  const ichild = new ibridge.Child({ channel: childChannel, model, context });
+
+  await Promise.all([ichild.handshake(), iparent.handshake()]);
 
   const userId = 123;
-  const value = await parent.get("users.getUser", userId);
+  const value = await iparent.call("users.getUser", userId);
   expect(value).toEqual({
     userId,
     fake: true,
