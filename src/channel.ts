@@ -1,3 +1,4 @@
+import debugFactory from "debug";
 import { INativeEventData, IBRIDGE_MARKER } from "./msg/native";
 import { getRemoteWindow } from "./iframe";
 
@@ -48,6 +49,7 @@ export class WindowChannel implements IChannel {
     });
   }
 
+  debug: debugFactory.Debugger = debugFactory('ibridge:WindowChannel')
   localWindow: Window = window;
   remoteWindow: Window;
   remoteOrigin: string;
@@ -86,7 +88,6 @@ export class WindowChannel implements IChannel {
     return removeListener;
   }
 
-  // TODO debug
   isValid(event: MessageEvent<INativeEventData>): boolean {
     const { source, origin } = event;
 
@@ -97,7 +98,9 @@ export class WindowChannel implements IChannel {
       () => event?.data?.type === IBRIDGE_MARKER,
     ];
 
-    return validators.every((validator) => validator());
+    const isValid = validators.every((validator) => validator());
+    this.debug('isValid: %s event: %o', isValid, event)
+    return isValid
   }
 }
 

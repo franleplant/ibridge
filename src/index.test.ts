@@ -26,6 +26,7 @@ test("integration", async () => {
     remoteWindow: childWindow as any,
     remoteOrigin: "*",
   });
+  parentChannel.isValid = () => true
   const iparent = new ibridge.Parent({ channel: parentChannel });
 
   const childChannel = new ibridge.WindowChannel({
@@ -33,6 +34,7 @@ test("integration", async () => {
     remoteWindow: parentWindow,
     remoteOrigin: "*",
   });
+  childChannel.isValid = () => true
   const ichild = new ibridge.Child({ channel: childChannel, model, context });
 
   await Promise.all([ichild.handshake(), iparent.handshake()]);
