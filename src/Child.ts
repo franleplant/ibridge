@@ -29,9 +29,11 @@ export default class ChildAPI<TModel, TContext = undefined> extends Bridge<
 
   async handshake(): Promise<ChildAPI<TModel, TContext>> {
     const { sessionId } = (await this.once(HANDSHAKE_REQUEST)) as any;
+    this.debug("received handshake from Parent, storing sessionId %s", sessionId);
     this.sessionId = sessionId;
     this.debug = debugFactory(`ibridge:child-${this.sessionId}`);
-    this.debug("received handshake from Parent");
+    this.channel.setDebugPrefix(sessionId)
+
     this.debug("sending handshake reply to Parent");
     this.emitToRemote(HANDSHAKE_RESPONSE, undefined);
     this.debug("handshake ok");

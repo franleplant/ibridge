@@ -1,6 +1,7 @@
 import debugFactory from "debug";
 import { INativeEventData, IBRIDGE_MARKER } from "./msg/native";
 import { getRemoteWindow } from "./iframe";
+import {getOrigin} from "./url";
 
 export type MessageListener = (event: MessageEvent) => void;
 export type ListenerRemover = () => void;
@@ -11,6 +12,7 @@ export type ListenerRemover = () => void;
 export interface IChannel {
   emitMsg: (message: any) => void;
   onMsg: (listener: MessageListener) => ListenerRemover;
+  setDebugPrefix: (prefix: string) => void;
 }
 
 export interface IIframeOpts {
@@ -44,8 +46,7 @@ export class WindowChannel implements IChannel {
     return new WindowChannel({
       localWindow: window,
       remoteWindow,
-      // TODO
-      remoteOrigin: "*",
+      remoteOrigin: getOrigin(args.url),
     });
   }
 
@@ -66,6 +67,10 @@ export class WindowChannel implements IChannel {
     this.localWindow = localWindow;
     this.remoteWindow = remoteWindow;
     this.remoteOrigin = remoteOrigin;
+  }
+
+  setDebugPrefix(prefix: string) {
+    this.debug = debugFactory(`ibridge:WindowChannel-${prefix}`)
   }
 
   emitMsg(message: any): void {
@@ -107,9 +112,14 @@ export class WindowChannel implements IChannel {
 // TODO jsdocs
 export class WorkerChannel implements IChannel {
   worker: Worker | DedicatedWorkerGlobalScope;
+  debug: debugFactory.Debugger = debugFactory('ibridge:WorkerChannel')
 
   constructor(worker: Worker | DedicatedWorkerGlobalScope) {
     this.worker = worker;
+  }
+
+  setDebugPrefix(prefix: string) {
+    this.debug = debugFactory(`ibridge:WorkerChannel-${prefix}`)
   }
 
   emitMsg(message: any): void {
