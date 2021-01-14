@@ -69,7 +69,7 @@ export class WindowChannel implements IChannel {
     this.remoteOrigin = remoteOrigin;
   }
 
-  setDebugPrefix(prefix: string) {
+  setDebugPrefix(prefix: string): void {
     this.debug = debugFactory(`ibridge:WindowChannel-${prefix}`);
   }
 
@@ -118,7 +118,7 @@ export class WorkerChannel implements IChannel {
     this.worker = worker;
   }
 
-  setDebugPrefix(prefix: string) {
+  setDebugPrefix(prefix: string): void {
     this.debug = debugFactory(`ibridge:WorkerChannel-${prefix}`);
   }
 
